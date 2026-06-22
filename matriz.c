@@ -66,13 +66,13 @@ void copiarMatriz(int **origem, int **destino, int tamanho) {
 static void imprimirCabecalho(int tamanho) {
     int j;
 
-    printf("    ");
+    printf("     ");
     for (j = 0; j < tamanho; j++) {
         printf("%3d", j + 1);
     }
     printf("\n");
 
-    printf("    ");
+    printf("    +");
     for (j = 0; j < tamanho; j++) {
         printf("---");
     }
@@ -88,7 +88,7 @@ void imprimirCampoProprio(int **campo, int tamanho) {
     imprimirCabecalho(tamanho);
 
     for (i = 0; i < tamanho; i++) {
-        printf("%3d ", i + 1);
+        printf("%3d |", i + 1);
         for (j = 0; j < tamanho; j++) {
             valor = campo[i][j];
 
@@ -114,7 +114,7 @@ void imprimirCampoAdversario(int **campo, int tamanho) {
     imprimirCabecalho(tamanho);
 
     for (i = 0; i < tamanho; i++) {
-        printf("%3d ", i + 1);
+        printf("%3d |", i + 1);
         for (j = 0; j < tamanho; j++) {
             printf("%3d", campo[i][j]);
         }
