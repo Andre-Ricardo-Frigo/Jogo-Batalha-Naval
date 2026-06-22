@@ -62,17 +62,30 @@ void copiarMatriz(int **origem, int **destino, int tamanho) {
     }
 }
 
-/* Mostra o campo do jogador humano, revelando seus proprios navios. */
-void imprimirCampoProprio(int **campo, int tamanho) {
-    int i;
+/* Mostra os indices das colunas e uma linha separadora. */
+static void imprimirCabecalho(int tamanho) {
     int j;
-    int valor;
 
     printf("    ");
     for (j = 0; j < tamanho; j++) {
         printf("%3d", j + 1);
     }
     printf("\n");
+
+    printf("    ");
+    for (j = 0; j < tamanho; j++) {
+        printf("---");
+    }
+    printf("\n");
+}
+
+/* Mostra o campo do jogador humano, revelando seus proprios navios. */
+void imprimirCampoProprio(int **campo, int tamanho) {
+    int i;
+    int j;
+    int valor;
+
+    imprimirCabecalho(tamanho);
 
     for (i = 0; i < tamanho; i++) {
         printf("%3d ", i + 1);
@@ -98,11 +111,7 @@ void imprimirCampoAdversario(int **campo, int tamanho) {
     int i;
     int j;
 
-    printf("    ");
-    for (j = 0; j < tamanho; j++) {
-        printf("%3d", j + 1);
-    }
-    printf("\n");
+    imprimirCabecalho(tamanho);
 
     for (i = 0; i < tamanho; i++) {
         printf("%3d ", i + 1);
