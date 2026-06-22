@@ -4,7 +4,7 @@
 #include "batalha.h"
 
 /* Limpa caracteres restantes quando a leitura com scanf falha. */
-static void limparEntrada(void) {
+void limparEntrada(void) {
     int c;
 
     do {
@@ -13,7 +13,7 @@ static void limparEntrada(void) {
 }
 
 /* Le um numero inteiro do teclado. */
-static int lerInteiro(const char *mensagem) {
+int lerInteiro(const char *mensagem) {
     int valor;
 
     printf("%s", mensagem);
@@ -26,21 +26,21 @@ static int lerInteiro(const char *mensagem) {
 }
 
 /* Pausa a tela para o jogador conseguir ler a mensagem exibida. */
-static void pausarTela(void) {
+void pausarTela(void) {
     limparEntrada();
     printf("Pressione ENTER para continuar...");
     getchar();
 }
 
 /* Converte uma posicao de 1 ate tamanho*tamanho em linha e coluna. */
-static void posicaoParaCoordenada(int posicao, int tamanho, int *linha, int *coluna) {
+void posicaoParaCoordenada(int posicao, int tamanho, int *linha, int *coluna) {
     posicao--;
     *linha = posicao / tamanho;
     *coluna = posicao % tamanho;
 }
 
 /* Procura qual navio ocupa uma posicao do campo. */
-static int indiceNavioPorPosicao(Navio *navios, int total, int linha, int coluna) {
+int indiceNavioPorPosicao(Navio *navios, int total, int linha, int coluna) {
     int i;
 
     for (i = 0; i < total; i++) {
@@ -54,18 +54,18 @@ static int indiceNavioPorPosicao(Navio *navios, int total, int linha, int coluna
 }
 
 /* Marca as duas partes de um navio afundado na visao do adversario. */
-static void marcarNavioAfundado(int **visao, Navio navio) {
+void marcarNavioAfundado(int **visao, Navio navio) {
     visao[navio.linha1][navio.coluna1] = MARCA_AFUNDOU;
     visao[navio.linha2][navio.coluna2] = MARCA_AFUNDOU;
 }
 
 /* Verifica se ainda existem celulas livres para colocar o navio. */
-static int posicaoLivre(int **campo, int linha1, int coluna1, int linha2, int coluna2) {
+int posicaoLivre(int **campo, int linha1, int coluna1, int linha2, int coluna2) {
     return campo[linha1][coluna1] == AGUA && campo[linha2][coluna2] == AGUA;
 }
 
 /* Sorteia navios de duas celulas, sem permitir sobreposicao. */
-static void posicionarNavios(Jogador *jogador, int tamanho) {
+void posicionarNavios(Jogador *jogador, int tamanho) {
     int i;
     int linha;
     int coluna;
@@ -101,7 +101,7 @@ static void posicionarNavios(Jogador *jogador, int tamanho) {
 }
 
 /* Inicializa as estruturas de um jogador. */
-static void inicializarJogador(Jogador *jogador, int tamanho, int totalNavios) {
+void inicializarJogador(Jogador *jogador, int tamanho, int totalNavios) {
     jogador->campo = criarMatriz(tamanho);
     jogador->visaoAdversario = criarMatriz(tamanho);
     jogador->navios = (Navio *) malloc(totalNavios * sizeof(Navio));
@@ -114,7 +114,7 @@ static void inicializarJogador(Jogador *jogador, int tamanho, int totalNavios) {
 }
 
 /* Libera as estruturas de um jogador. */
-static void liberarJogador(Jogador *jogador, int tamanho) {
+void liberarJogador(Jogador *jogador, int tamanho) {
     liberarMatriz(jogador->campo, tamanho);
     liberarMatriz(jogador->visaoAdversario, tamanho);
     free(jogador->navios);
@@ -156,7 +156,7 @@ int contarNaviosRestantes(Navio *navios, int total, int indice) {
 }
 
 /* Mostra o significado dos numeros usados nos tabuleiros. */
-static void mostrarLegenda(void) {
+void mostrarLegenda(void) {
     printf("\n===== LEGENDA =====\n");
     printf("0 = Agua no seu campo\n");
     printf("1 = Seu navio\n");
@@ -168,7 +168,7 @@ static void mostrarLegenda(void) {
 }
 
 /* Mostra os dois campos relevantes para o jogador humano. */
-static void mostrarCampos(Jogo *jogo) {
+void mostrarCampos(Jogo *jogo) {
     int restantesHumano;
     int restantesComputador;
 
@@ -187,7 +187,7 @@ static void mostrarCampos(Jogo *jogo) {
 }
 
 /* Processa um bombardeio e altera as matrizes conforme o resultado. */
-static int bombardear(Jogador *atacante, Jogador *defensor, int linha, int coluna) {
+int bombardear(Jogador *atacante, Jogador *defensor, int linha, int coluna) {
     int indice;
     int valor = defensor->campo[linha][coluna];
 
@@ -218,12 +218,12 @@ static int bombardear(Jogador *atacante, Jogador *defensor, int linha, int colun
 }
 
 /* Verifica se uma posicao ja foi bombardeada pelo jogador atacante. */
-static int posicaoJaBombardeada(Jogador *atacante, int linha, int coluna) {
+int posicaoJaBombardeada(Jogador *atacante, int linha, int coluna) {
     return atacante->visaoAdversario[linha][coluna] != DESCONHECIDO;
 }
 
 /* Executa os tres bombardeios do jogador humano. */
-static int turnoHumano(Jogo *jogo) {
+int turnoHumano(Jogo *jogo) {
     int i;
     int linha;
     int coluna;
@@ -288,7 +288,7 @@ static int turnoHumano(Jogo *jogo) {
 }
 
 /* Sorteia uma posicao valida para o computador bombardear. */
-static void sortearPosicaoComputador(Jogo *jogo, int *linha, int *coluna) {
+void sortearPosicaoComputador(Jogo *jogo, int *linha, int *coluna) {
     int posicao;
     int limite = jogo->config.tamanho * jogo->config.tamanho;
 
@@ -299,7 +299,7 @@ static void sortearPosicaoComputador(Jogo *jogo, int *linha, int *coluna) {
 }
 
 /* Executa os tres bombardeios do computador. */
-static void turnoComputador(Jogo *jogo) {
+void turnoComputador(Jogo *jogo) {
     int i;
     int linha;
     int coluna;
@@ -323,7 +323,7 @@ static void turnoComputador(Jogo *jogo) {
 }
 
 /* Menu exibido ao final da partida. */
-static int menuFimDeJogo(void) {
+int menuFimDeJogo(void) {
     printf("\n1 - Jogar novamente\n");
     printf("2 - Voltar ao menu principal\n");
     printf("3 - Sair\n");

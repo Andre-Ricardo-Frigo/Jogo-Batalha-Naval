@@ -4,7 +4,7 @@
 #include "batalha.h"
 
 /* Le um inteiro simples usado no menu principal. */
-static int lerOpcaoMenu(void) {
+int lerOpcaoMenu(void) {
     int opcao;
     int c;
 
@@ -20,7 +20,7 @@ static int lerOpcaoMenu(void) {
 }
 
 /* Mostra as opcoes principais do programa. */
-static void mostrarMenu(Configuracao config) {
+void mostrarMenu(Configuracao config) {
     printf("\n===== BATALHA NAVAL =====\n");
     printf("Configuracao atual: campo %dx%d, %d navios\n",
            config.tamanho, config.tamanho, config.quantidadeNavios);

@@ -39,7 +39,7 @@ int carregarConfiguracao(Configuracao *config) {
 }
 
 /* Escreve uma matriz no arquivo, linha por linha. */
-static void escreverMatriz(FILE *arquivo, int **matriz, int tamanho) {
+void escreverMatriz(FILE *arquivo, int **matriz, int tamanho) {
     int i;
 
     for (i = 0; i < tamanho; i++) {
@@ -48,7 +48,7 @@ static void escreverMatriz(FILE *arquivo, int **matriz, int tamanho) {
 }
 
 /* Le uma matriz do arquivo, linha por linha. */
-static void lerMatriz(FILE *arquivo, int **matriz, int tamanho) {
+void lerMatriz(FILE *arquivo, int **matriz, int tamanho) {
     int i;
 
     for (i = 0; i < tamanho; i++) {

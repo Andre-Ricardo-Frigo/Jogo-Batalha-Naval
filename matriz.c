@@ -63,7 +63,7 @@ void copiarMatriz(int **origem, int **destino, int tamanho) {
 }
 
 /* Mostra os indices das colunas e uma linha separadora. */
-static void imprimirCabecalho(int tamanho) {
+void imprimirCabecalho(int tamanho) {
     int j;
 
     printf("     ");
