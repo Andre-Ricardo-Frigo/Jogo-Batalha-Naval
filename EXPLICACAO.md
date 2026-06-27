@@ -23,25 +23,25 @@ A tabela abaixo mostra cada linha do codigo e uma explicacao simples ao lado.
 | 17 | `#define ARQUIVO_DADOS "batalha_naval.bin"` | Define o nome do arquivo binario usado para salvar dados. |
 | 18 | &nbsp; | Linha em branco para separar partes do codigo. |
 | 19 | `/* Registro que guarda as configuracoes do jogo. */` | Comentario sobre o registro de configuracao. |
-| 20 | `typedef struct` | Cria o tipo `Configuracao`, que guarda tamanho do campo e quantidade de navios. |
-| 21 | `{` | Cria o tipo `Configuracao`, que guarda tamanho do campo e quantidade de navios. |
-| 22 | `    int tamanho;` | Cria o tipo `Configuracao`, que guarda tamanho do campo e quantidade de navios. |
+| 20 | `typedef struct` | Comeca a declaracao de um registro. |
+| 21 | `{` | Abre um bloco de codigo. |
+| 22 | `    int tamanho;` | Declara uma variavel inteira. |
 | 23 | `    int quantidadeNavios;` | Cria o tipo `Configuracao`, que guarda tamanho do campo e quantidade de navios. |
 | 24 | `} Configuracao;` | Cria o tipo `Configuracao`, que guarda tamanho do campo e quantidade de navios. |
 | 25 | &nbsp; | Linha em branco para separar partes do codigo. |
 | 26 | `/* Registro que guarda as duas partes de um navio. */` | Comentario sobre o registro de navio. |
-| 27 | `typedef struct` | Cria o tipo `Navio`, que guarda as duas posicoes do navio e seus acertos. |
-| 28 | `{` | Cria o tipo `Navio`, que guarda as duas posicoes do navio e seus acertos. |
+| 27 | `typedef struct` | Comeca a declaracao de um registro. |
+| 28 | `{` | Abre um bloco de codigo. |
 | 29 | `    int linha1;` | Cria o tipo `Navio`, que guarda as duas posicoes do navio e seus acertos. |
 | 30 | `    int coluna1;` | Cria o tipo `Navio`, que guarda as duas posicoes do navio e seus acertos. |
-| 31 | `    int linha2;` | Cria o tipo `Navio`, que guarda as duas posicoes do navio e seus acertos. |
-| 32 | `    int coluna2;` | Cria o tipo `Navio`, que guarda as duas posicoes do navio e seus acertos. |
+| 31 | `    int linha2;` | Declara uma variavel inteira. |
+| 32 | `    int coluna2;` | Declara uma variavel inteira. |
 | 33 | `    int acertos;` | Cria o tipo `Navio`, que guarda as duas posicoes do navio e seus acertos. |
 | 34 | `} Navio;` | Cria o tipo `Navio`, que guarda as duas posicoes do navio e seus acertos. |
 | 35 | &nbsp; | Linha em branco para separar partes do codigo. |
 | 36 | `/* Registro que guarda tudo que pertence a um jogador. */` | Comentario sobre o registro do jogador. |
-| 37 | `typedef struct` | Cria o tipo `Jogador`, com campo, visao do adversario, navios e contadores. |
-| 38 | `{` | Cria o tipo `Jogador`, com campo, visao do adversario, navios e contadores. |
+| 37 | `typedef struct` | Comeca a declaracao de um registro. |
+| 38 | `{` | Abre um bloco de codigo. |
 | 39 | `    int **campo;` | Cria o tipo `Jogador`, com campo, visao do adversario, navios e contadores. |
 | 40 | `    int **visaoAdversario;` | Cria o tipo `Jogador`, com campo, visao do adversario, navios e contadores. |
 | 41 | `    Navio *navios;` | Cria o tipo `Jogador`, com campo, visao do adversario, navios e contadores. |
@@ -50,988 +50,1024 @@ A tabela abaixo mostra cada linha do codigo e uma explicacao simples ao lado.
 | 44 | `} Jogador;` | Cria o tipo `Jogador`, com campo, visao do adversario, navios e contadores. |
 | 45 | &nbsp; | Linha em branco para separar partes do codigo. |
 | 46 | `/* Registro que guarda uma partida inteira. */` | Comentario sobre o registro da partida completa. |
-| 47 | `typedef struct` | Cria o tipo `Jogo`, juntando configuracao, jogadores, turno e estado da partida. |
-| 48 | `{` | Cria o tipo `Jogo`, juntando configuracao, jogadores, turno e estado da partida. |
-| 49 | `    Configuracao config;` | Cria o tipo `Jogo`, juntando configuracao, jogadores, turno e estado da partida. |
+| 47 | `typedef struct` | Comeca a declaracao de um registro. |
+| 48 | `{` | Abre um bloco de codigo. |
+| 49 | `    Configuracao config;` | Guarda a configuracao usada nesta partida. |
 | 50 | `    Jogador humano;` | Cria o tipo `Jogo`, juntando configuracao, jogadores, turno e estado da partida. |
 | 51 | `    Jogador computador;` | Cria o tipo `Jogo`, juntando configuracao, jogadores, turno e estado da partida. |
-| 52 | `    int turno;       /* 0 = humano, 1 = computador */` | Cria o tipo `Jogo`, juntando configuracao, jogadores, turno e estado da partida. |
-| 53 | `    int emAndamento; /* 1 = jogo ativo, 0 = jogo parado */` | Cria o tipo `Jogo`, juntando configuracao, jogadores, turno e estado da partida. |
-| 54 | `} Jogo;` | Cria o tipo `Jogo`, juntando configuracao, jogadores, turno e estado da partida. |
-| 55 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 56 | `/* Prototipos das funcoes. */` | Comentario indicando que vem a lista de prototipos das funcoes. |
-| 57 | `int **criarMatriz(int tamanho);` | Declara a funcao que cria uma matriz. |
-| 58 | `void liberarMatriz(int **matriz, int tamanho);` | Declara a funcao que libera uma matriz da memoria. |
-| 59 | `void preencherMatriz(int **matriz, int tamanho, int valor);` | Declara a funcao que preenche uma matriz com um valor. |
-| 60 | `void imprimirCampoProprio(int **campo, int tamanho);` | Declara a funcao que imprime o campo do proprio jogador. |
-| 61 | `void imprimirCampoAdversario(int **campo, int tamanho);` | Declara a funcao que imprime o campo conhecido do adversario. |
-| 62 | `void configuracaoPadrao(Configuracao *config);` | Declara a funcao que define a configuracao padrao. |
-| 63 | `int salvarConfiguracao(Configuracao *config);` | Declara a funcao que salva a configuracao. |
-| 64 | `int carregarConfiguracao(Configuracao *config);` | Declara a funcao que carrega a configuracao. |
-| 65 | `int salvarJogo(Jogo *jogo);` | Declara a funcao que salva uma partida. |
-| 66 | `int carregarJogo(Jogo *jogo);` | Declara a funcao que carrega uma partida. |
-| 67 | `void inicializarJogo(Jogo *jogo, Configuracao config);` | Declara a funcao que inicia uma partida. |
-| 68 | `void liberarJogo(Jogo *jogo);` | Declara a funcao que libera a memoria da partida. |
-| 69 | `void executarPartida(Jogo *jogo);` | Declara a funcao que executa a partida. |
-| 70 | `void configurarJogo(Configuracao *config);` | Declara a funcao que altera as configuracoes. |
-| 71 | `int contarNaviosRestantes(Navio *navios, int total, int indice);` | Declara a funcao recursiva que conta navios restantes. |
-| 72 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 73 | `/* Limpa o restante da linha quando o usuario digita algo invalido. */` | Comentario dizendo que a funcao limpa entradas invalidas. |
-| 74 | `void limparEntrada(void)` | Inicio da funcao `limparEntrada`. |
-| 75 | `{` | Abre ou fecha um bloco de codigo. |
-| 76 | `    int c;` | Cria a variavel que recebe cada caractere digitado. |
-| 77 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 78 | `    do` | Le caracteres ate chegar no fim da linha ou no fim do arquivo. |
-| 79 | `    {` | Le caracteres ate chegar no fim da linha ou no fim do arquivo. |
-| 80 | `        c = getchar();` | Le caracteres ate chegar no fim da linha ou no fim do arquivo. |
-| 81 | `    } while (c != '\n' &amp;&amp; c != EOF);` | Le caracteres ate chegar no fim da linha ou no fim do arquivo. |
-| 82 | `}` | Fecha a funcao. |
-| 83 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 84 | `/* Le um numero inteiro do teclado. */` | Comentario dizendo que a funcao le um numero inteiro. |
-| 85 | `int lerInteiro(char mensagem[])` | Inicio da funcao `lerInteiro`, recebendo uma mensagem para mostrar ao usuario. |
-| 86 | `{` | Abre ou fecha um bloco de codigo. |
-| 87 | `    int valor;` | Cria a variavel onde o numero sera guardado. |
-| 88 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 89 | `    printf("%s", mensagem);` | Mostra a mensagem na tela. |
-| 90 | `    while (scanf("%d", &amp;valor) != 1)` | Tenta ler um inteiro; se nao conseguir, entra no laco. |
-| 91 | `    {` | Abre ou fecha um bloco de codigo. |
-| 92 | `        limparEntrada();` | Limpa o que foi digitado errado. |
-| 93 | `        printf("Digite um numero inteiro: ");` | Pede novamente um numero inteiro. |
-| 94 | `    }` | Fecha o laco de validacao. |
-| 95 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 96 | `    limparEntrada();` | Limpa o restante da linha depois da leitura correta. |
-| 97 | `    return valor;` | Devolve o numero lido. |
-| 98 | `}` | Fecha a funcao. |
-| 99 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 100 | `/* Pausa a tela ate o usuario confirmar que leu as mensagens. */` | Comentario dizendo que a funcao pausa a tela. |
-| 101 | `void aguardarEnter(void)` | Inicio da funcao `aguardarEnter`. |
-| 102 | `{` | Abre ou fecha um bloco de codigo. |
-| 103 | `    printf("Pressione ENTER para continuar...");` | Mostra a mensagem pedindo ENTER. |
-| 104 | `    getchar();` | Espera o usuario apertar ENTER. |
-| 105 | `}` | Fecha a funcao. |
-| 106 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 107 | `/* Aloca uma matriz quadrada de inteiros usando ponteiros. */` | Comentario sobre alocar uma matriz quadrada. |
-| 108 | `int **criarMatriz(int tamanho)` | Inicio da funcao `criarMatriz`. |
-| 109 | `{` | Abre ou fecha um bloco de codigo. |
-| 110 | `    int i;` | Cria o contador do laco. |
-| 111 | `    int **matriz = (int **)malloc(tamanho * sizeof(int *));` | Aloca o vetor de ponteiros, um para cada linha da matriz. |
-| 112 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 113 | `    if (matriz == NULL)` | Se a alocacao falhar, retorna `NULL`. |
-| 114 | `    {` | Se a alocacao falhar, retorna `NULL`. |
-| 115 | `        return NULL;` | Se a alocacao falhar, retorna `NULL`. |
-| 116 | `    }` | Se a alocacao falhar, retorna `NULL`. |
-| 117 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 118 | `    for (i = 0; i &lt; tamanho; i++)` | Aloca cada linha da matriz; se falhar, libera o que ja foi alocado. |
-| 119 | `    {` | Aloca cada linha da matriz; se falhar, libera o que ja foi alocado. |
-| 120 | `        matriz[i] = (int *)malloc(tamanho * sizeof(int));` | Aloca cada linha da matriz; se falhar, libera o que ja foi alocado. |
-| 121 | &nbsp; | Aloca cada linha da matriz; se falhar, libera o que ja foi alocado. |
-| 122 | `        if (matriz[i] == NULL)` | Aloca cada linha da matriz; se falhar, libera o que ja foi alocado. |
-| 123 | `        {` | Aloca cada linha da matriz; se falhar, libera o que ja foi alocado. |
-| 124 | `            liberarMatriz(matriz, i);` | Aloca cada linha da matriz; se falhar, libera o que ja foi alocado. |
-| 125 | `            return NULL;` | Aloca cada linha da matriz; se falhar, libera o que ja foi alocado. |
-| 126 | `        }` | Aloca cada linha da matriz; se falhar, libera o que ja foi alocado. |
-| 127 | `    }` | Aloca cada linha da matriz; se falhar, libera o que ja foi alocado. |
-| 128 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 129 | `    return matriz;` | Retorna a matriz criada. |
-| 130 | `}` | Fecha a funcao. |
-| 131 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 132 | `/* Libera a memoria da matriz linha por linha. */` | Comentario sobre liberar uma matriz. |
-| 133 | `void liberarMatriz(int **matriz, int tamanho)` | Inicio da funcao `liberarMatriz`. |
-| 134 | `{` | Abre ou fecha um bloco de codigo. |
-| 135 | `    int i;` | Cria o contador do laco. |
-| 136 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 137 | `    if (matriz == NULL)` | Se a matriz for nula, sai da funcao. |
-| 138 | `    {` | Se a matriz for nula, sai da funcao. |
-| 139 | `        return;` | Se a matriz for nula, sai da funcao. |
-| 140 | `    }` | Se a matriz for nula, sai da funcao. |
-| 141 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 142 | `    for (i = 0; i &lt; tamanho; i++)` | Libera cada linha da matriz. |
-| 143 | `    {` | Libera cada linha da matriz. |
-| 144 | `        free(matriz[i]);` | Libera cada linha da matriz. |
-| 145 | `    }` | Libera cada linha da matriz. |
-| 146 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 147 | `    free(matriz);` | Libera o vetor principal da matriz. |
-| 148 | `}` | Fecha a funcao. |
-| 149 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 150 | `/* Preenche todas as posicoes de uma matriz com o mesmo valor. */` | Comentario sobre preencher uma matriz. |
-| 151 | `void preencherMatriz(int **matriz, int tamanho, int valor)` | Inicio da funcao `preencherMatriz`. |
-| 152 | `{` | Abre ou fecha um bloco de codigo. |
-| 153 | `    int i;` | Cria os contadores de linha e coluna. |
-| 154 | `    int j;` | Cria os contadores de linha e coluna. |
-| 155 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 156 | `    for (i = 0; i &lt; tamanho; i++)` | Percorre todas as posicoes e coloca o valor informado. |
-| 157 | `    {` | Percorre todas as posicoes e coloca o valor informado. |
-| 158 | `        for (j = 0; j &lt; tamanho; j++)` | Percorre todas as posicoes e coloca o valor informado. |
-| 159 | `        {` | Percorre todas as posicoes e coloca o valor informado. |
-| 160 | `            matriz[i][j] = valor;` | Percorre todas as posicoes e coloca o valor informado. |
-| 161 | `        }` | Percorre todas as posicoes e coloca o valor informado. |
-| 162 | `    }` | Percorre todas as posicoes e coloca o valor informado. |
-| 163 | `}` | Fecha a funcao. |
-| 164 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 165 | `/* Imprime os indices das colunas e as linhas separadoras. */` | Comentario sobre imprimir cabecalho. |
-| 166 | `void imprimirCabecalho(int tamanho)` | Inicio da funcao `imprimirCabecalho`. |
-| 167 | `{` | Abre ou fecha um bloco de codigo. |
-| 168 | `    int j;` | Cria o contador de colunas. |
-| 169 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 170 | `    printf("     ");` | Imprime espacos antes dos numeros das colunas. |
-| 171 | `    for (j = 0; j &lt; tamanho; j++)` | Imprime os numeros das colunas. |
-| 172 | `    {` | Imprime os numeros das colunas. |
-| 173 | `        printf("%3d", j + 1);` | Imprime os numeros das colunas. |
-| 174 | `    }` | Imprime os numeros das colunas. |
-| 175 | `    printf("\n");` | Pula linha. |
-| 176 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 177 | `    printf("    +");` | Imprime o inicio da linha separadora. |
-| 178 | `    for (j = 0; j &lt; tamanho; j++)` | Imprime tracos da largura do campo. |
-| 179 | `    {` | Imprime tracos da largura do campo. |
-| 180 | `        printf("---");` | Imprime tracos da largura do campo. |
-| 181 | `    }` | Imprime tracos da largura do campo. |
-| 182 | `    printf("\n");` | Pula linha. |
-| 183 | `}` | Fecha a funcao. |
-| 184 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 185 | `/* Imprime o campo do jogador humano, mostrando os seus navios. */` | Comentario sobre imprimir o campo do jogador. |
-| 186 | `void imprimirCampoProprio(int **campo, int tamanho)` | Inicio da funcao `imprimirCampoProprio`. |
-| 187 | `{` | Abre ou fecha um bloco de codigo. |
-| 188 | `    int i;` | Cria contadores e a variavel que guarda o valor da posicao. |
-| 189 | `    int j;` | Cria contadores e a variavel que guarda o valor da posicao. |
-| 190 | `    int valor;` | Cria contadores e a variavel que guarda o valor da posicao. |
-| 191 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 192 | `    imprimirCabecalho(tamanho);` | Imprime o cabecalho do campo. |
+| 52 | `    int turno;                  /* 0 = humano, 1 = computador */` | Guarda de quem e o turno atual: humano ou computador. |
+| 53 | `    int emAndamento;            /* 1 = jogo ativo, 0 = jogo parado */` | Indica se a partida ainda esta ativa. |
+| 54 | `    int bombardeiosHumanoFeitos; /* disparos ja feitos no turno atual */` | Guarda quantos bombardeios o humano ja fez no turno atual, para o save nao devolver tres disparos extras. |
+| 55 | `} Jogo;` | Cria o tipo `Jogo`, juntando configuracao, jogadores, turno e estado da partida. |
+| 56 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 57 | `/* Prototipos das funcoes. */` | Comentario indicando que vem a lista de prototipos das funcoes. |
+| 58 | `int **criarMatriz(int tamanho);` | Declara a funcao que cria uma matriz. |
+| 59 | `void liberarMatriz(int **matriz, int tamanho);` | Declara a funcao que libera uma matriz da memoria. |
+| 60 | `void preencherMatriz(int **matriz, int tamanho, int valor);` | Declara a funcao que preenche uma matriz com um valor. |
+| 61 | `void imprimirCampoProprio(int **campo, int tamanho);` | Declara a funcao que imprime o campo do proprio jogador. |
+| 62 | `void imprimirCampoAdversario(int **campo, int tamanho);` | Declara a funcao que imprime o campo conhecido do adversario. |
+| 63 | `void configuracaoPadrao(Configuracao *config);` | Declara a funcao que define a configuracao padrao. |
+| 64 | `int salvarConfiguracao(Configuracao *config);` | Declara a funcao que salva a configuracao. |
+| 65 | `int carregarConfiguracao(Configuracao *config);` | Declara a funcao que carrega a configuracao. |
+| 66 | `int salvarJogo(Jogo *jogo);` | Declara a funcao que salva uma partida. |
+| 67 | `int carregarJogo(Jogo *jogo);` | Declara a funcao que carrega uma partida. |
+| 68 | `void inicializarJogo(Jogo *jogo, Configuracao config);` | Declara a funcao que inicia uma partida. |
+| 69 | `void liberarJogo(Jogo *jogo);` | Declara a funcao que libera a memoria da partida. |
+| 70 | `void executarPartida(Jogo *jogo);` | Declara a funcao que executa a partida. |
+| 71 | `void configurarJogo(Configuracao *config);` | Declara a funcao que altera as configuracoes. |
+| 72 | `int contarNaviosRestantes(Navio *navios, int total, int indice);` | Declara a funcao recursiva que conta navios restantes. |
+| 73 | `int contarBombardeiosRealizados(int **visaoAdversario, int tamanho);` | Declara a funcao que conta quantas posicoes ja foram bombardeadas para recuperar o progresso do turno ao carregar. |
+| 74 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 75 | `/* Limpa o restante da linha quando o usuario digita algo invalido. */` | Comentario dizendo que a funcao limpa entradas invalidas. |
+| 76 | `void limparEntrada(void)` | Inicio da funcao `limparEntrada`. |
+| 77 | `{` | Abre um bloco de codigo. |
+| 78 | `    int c;` | Cria a variavel que recebe cada caractere digitado. |
+| 79 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 80 | `    do` | Executa uma instrucao do programa. |
+| 81 | `    {` | Abre ou fecha um bloco de codigo. |
+| 82 | `        c = getchar();` | Le caracteres ate chegar no fim da linha ou no fim do arquivo. |
+| 83 | `    } while (c != '\n' &amp;&amp; c != EOF);` | Le caracteres ate chegar no fim da linha ou no fim do arquivo. |
+| 84 | `}` | Fecha um bloco de codigo. |
+| 85 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 86 | `/* Le um numero inteiro do teclado. */` | Comentario dizendo que a funcao le um numero inteiro. |
+| 87 | `int lerInteiro(char mensagem[])` | Inicio da funcao `lerInteiro`, recebendo uma mensagem para mostrar ao usuario. |
+| 88 | `{` | Abre um bloco de codigo. |
+| 89 | `    int valor;` | Declara uma variavel inteira. |
+| 90 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 91 | `    printf("%s", mensagem);` | Mostra a mensagem na tela. |
+| 92 | `    while (scanf("%d", &amp;valor) != 1)` | Tenta ler um inteiro; se nao conseguir, entra no laco. |
+| 93 | `    {` | Abre ou fecha um bloco de codigo. |
+| 94 | `        limparEntrada();` | Limpa o que foi digitado errado. |
+| 95 | `        printf("Digite um numero inteiro: ");` | Pede novamente um numero inteiro. |
+| 96 | `    }` | Fecha um bloco de codigo. |
+| 97 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 98 | `    limparEntrada();` | Limpa o restante da linha depois da leitura correta. |
+| 99 | `    return valor;` | Retorna um valor ou encerra a funcao. |
+| 100 | `}` | Fecha um bloco de codigo. |
+| 101 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 102 | `/* Pausa a tela ate o usuario confirmar que leu as mensagens. */` | Comentario dizendo que a funcao pausa a tela. |
+| 103 | `void aguardarEnter(void)` | Inicio da funcao `aguardarEnter`. |
+| 104 | `{` | Abre um bloco de codigo. |
+| 105 | `    printf("Pressione ENTER para continuar...");` | Mostra a mensagem pedindo ENTER. |
+| 106 | `    getchar();` | Espera o usuario apertar ENTER. |
+| 107 | `}` | Fecha um bloco de codigo. |
+| 108 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 109 | `/* Aloca uma matriz quadrada de inteiros usando ponteiros. */` | Comentario sobre alocar uma matriz quadrada. |
+| 110 | `int **criarMatriz(int tamanho)` | Inicio da funcao `criarMatriz`. |
+| 111 | `{` | Abre um bloco de codigo. |
+| 112 | `    int i;` | Cria um contador para laco. |
+| 113 | `    int **matriz = (int **)malloc(tamanho * sizeof(int *));` | Aloca o vetor de ponteiros, um para cada linha da matriz. |
+| 114 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 115 | `    if (matriz == NULL)` | Verifica uma condicao para decidir o que fazer. |
+| 116 | `    {` | Abre ou fecha um bloco de codigo. |
+| 117 | `        return NULL;` | Se a alocacao falhar, retorna `NULL`. |
+| 118 | `    }` | Fecha um bloco de codigo. |
+| 119 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 120 | `    for (i = 0; i &lt; tamanho; i++)` | Percorre todas as linhas do campo. |
+| 121 | `    {` | Abre ou fecha um bloco de codigo. |
+| 122 | `        matriz[i] = (int *)malloc(tamanho * sizeof(int));` | Aloca cada linha da matriz; se falhar, libera o que ja foi alocado. |
+| 123 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 124 | `        if (matriz[i] == NULL)` | Aloca cada linha da matriz; se falhar, libera o que ja foi alocado. |
+| 125 | `        {` | Abre ou fecha um bloco de codigo. |
+| 126 | `            liberarMatriz(matriz, i);` | Aloca cada linha da matriz; se falhar, libera o que ja foi alocado. |
+| 127 | `            return NULL;` | Aloca cada linha da matriz; se falhar, libera o que ja foi alocado. |
+| 128 | `        }` | Fecha um bloco de codigo. |
+| 129 | `    }` | Fecha um bloco de codigo. |
+| 130 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 131 | `    return matriz;` | Retorna a matriz criada. |
+| 132 | `}` | Fecha um bloco de codigo. |
+| 133 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 134 | `/* Libera a memoria da matriz linha por linha. */` | Comentario sobre liberar uma matriz. |
+| 135 | `void liberarMatriz(int **matriz, int tamanho)` | Inicio da funcao `liberarMatriz`. |
+| 136 | `{` | Abre um bloco de codigo. |
+| 137 | `    int i;` | Cria um contador para laco. |
+| 138 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 139 | `    if (matriz == NULL)` | Verifica uma condicao para decidir o que fazer. |
+| 140 | `    {` | Abre ou fecha um bloco de codigo. |
+| 141 | `        return;` | Retorna um valor ou encerra a funcao. |
+| 142 | `    }` | Fecha um bloco de codigo. |
+| 143 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 144 | `    for (i = 0; i &lt; tamanho; i++)` | Percorre todas as linhas do campo. |
+| 145 | `    {` | Abre ou fecha um bloco de codigo. |
+| 146 | `        free(matriz[i]);` | Libera cada linha da matriz. |
+| 147 | `    }` | Fecha um bloco de codigo. |
+| 148 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 149 | `    free(matriz);` | Libera o vetor principal da matriz. |
+| 150 | `}` | Fecha um bloco de codigo. |
+| 151 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 152 | `/* Preenche todas as posicoes de uma matriz com o mesmo valor. */` | Comentario sobre preencher uma matriz. |
+| 153 | `void preencherMatriz(int **matriz, int tamanho, int valor)` | Inicio da funcao `preencherMatriz`. |
+| 154 | `{` | Abre um bloco de codigo. |
+| 155 | `    int i;` | Cria um contador para laco. |
+| 156 | `    int j;` | Cria um contador para laco. |
+| 157 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 158 | `    for (i = 0; i &lt; tamanho; i++)` | Percorre todas as linhas do campo. |
+| 159 | `    {` | Abre ou fecha um bloco de codigo. |
+| 160 | `        for (j = 0; j &lt; tamanho; j++)` | Percorre todas as colunas da linha atual. |
+| 161 | `        {` | Abre ou fecha um bloco de codigo. |
+| 162 | `            matriz[i][j] = valor;` | Percorre todas as posicoes e coloca o valor informado. |
+| 163 | `        }` | Fecha um bloco de codigo. |
+| 164 | `    }` | Fecha um bloco de codigo. |
+| 165 | `}` | Fecha um bloco de codigo. |
+| 166 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 167 | `/* Imprime os indices das colunas e as linhas separadoras. */` | Comentario sobre imprimir cabecalho. |
+| 168 | `void imprimirCabecalho(int tamanho)` | Inicio da funcao `imprimirCabecalho`. |
+| 169 | `{` | Abre um bloco de codigo. |
+| 170 | `    int j;` | Cria um contador para laco. |
+| 171 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 172 | `    printf("     ");` | Mostra uma mensagem na tela. |
+| 173 | `    for (j = 0; j &lt; tamanho; j++)` | Comeca um laco de repeticao. |
+| 174 | `    {` | Abre ou fecha um bloco de codigo. |
+| 175 | `        printf("%3d", j + 1);` | Mostra uma mensagem na tela. |
+| 176 | `    }` | Fecha um bloco de codigo. |
+| 177 | `    printf("\n");` | Mostra uma mensagem na tela. |
+| 178 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 179 | `    printf("    +");` | Mostra uma mensagem na tela. |
+| 180 | `    for (j = 0; j &lt; tamanho; j++)` | Comeca um laco de repeticao. |
+| 181 | `    {` | Abre ou fecha um bloco de codigo. |
+| 182 | `        printf("---");` | Mostra uma mensagem na tela. |
+| 183 | `    }` | Fecha um bloco de codigo. |
+| 184 | `    printf("\n");` | Mostra uma mensagem na tela. |
+| 185 | `}` | Fecha um bloco de codigo. |
+| 186 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 187 | `/* Imprime o campo do jogador humano, mostrando os seus navios. */` | Comentario sobre imprimir o campo do jogador. |
+| 188 | `void imprimirCampoProprio(int **campo, int tamanho)` | Inicio da funcao `imprimirCampoProprio`. |
+| 189 | `{` | Abre um bloco de codigo. |
+| 190 | `    int i;` | Cria um contador para laco. |
+| 191 | `    int j;` | Cria um contador para laco. |
+| 192 | `    int valor;` | Declara uma variavel inteira. |
 | 193 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 194 | `    for (i = 0; i &lt; tamanho; i++)` | Percorre o campo e imprime agua, acerto, navio visivel como `1` ou outro valor. |
-| 195 | `    {` | Percorre o campo e imprime agua, acerto, navio visivel como `1` ou outro valor. |
-| 196 | `        printf("%3d &#124;", i + 1);` | Percorre o campo e imprime agua, acerto, navio visivel como `1` ou outro valor. |
-| 197 | `        for (j = 0; j &lt; tamanho; j++)` | Percorre o campo e imprime agua, acerto, navio visivel como `1` ou outro valor. |
-| 198 | `        {` | Percorre o campo e imprime agua, acerto, navio visivel como `1` ou outro valor. |
-| 199 | `            valor = campo[i][j];` | Percorre o campo e imprime agua, acerto, navio visivel como `1` ou outro valor. |
-| 200 | &nbsp; | Percorre o campo e imprime agua, acerto, navio visivel como `1` ou outro valor. |
-| 201 | `            if (valor == AGUA)` | Percorre o campo e imprime agua, acerto, navio visivel como `1` ou outro valor. |
-| 202 | `            {` | Percorre o campo e imprime agua, acerto, navio visivel como `1` ou outro valor. |
-| 203 | `                printf("%3d", AGUA);` | Percorre o campo e imprime agua, acerto, navio visivel como `1` ou outro valor. |
-| 204 | `            }` | Percorre o campo e imprime agua, acerto, navio visivel como `1` ou outro valor. |
-| 205 | `            else if (valor == NAVIO_ACERTADO)` | Percorre o campo e imprime agua, acerto, navio visivel como `1` ou outro valor. |
-| 206 | `            {` | Percorre o campo e imprime agua, acerto, navio visivel como `1` ou outro valor. |
-| 207 | `                printf("%3d", NAVIO_ACERTADO);` | Percorre o campo e imprime agua, acerto, navio visivel como `1` ou outro valor. |
-| 208 | `            }` | Percorre o campo e imprime agua, acerto, navio visivel como `1` ou outro valor. |
-| 209 | `            else if (valor &gt;= NAVIO_BASE)` | Percorre o campo e imprime agua, acerto, navio visivel como `1` ou outro valor. |
-| 210 | `            {` | Percorre o campo e imprime agua, acerto, navio visivel como `1` ou outro valor. |
-| 211 | `                printf("%3d", 1);` | Percorre o campo e imprime agua, acerto, navio visivel como `1` ou outro valor. |
-| 212 | `            }` | Percorre o campo e imprime agua, acerto, navio visivel como `1` ou outro valor. |
-| 213 | `            else` | Percorre o campo e imprime agua, acerto, navio visivel como `1` ou outro valor. |
-| 214 | `            {` | Percorre o campo e imprime agua, acerto, navio visivel como `1` ou outro valor. |
-| 215 | `                printf("%3d", valor);` | Percorre o campo e imprime agua, acerto, navio visivel como `1` ou outro valor. |
-| 216 | `            }` | Percorre o campo e imprime agua, acerto, navio visivel como `1` ou outro valor. |
-| 217 | `        }` | Percorre o campo e imprime agua, acerto, navio visivel como `1` ou outro valor. |
-| 218 | `        printf("\n");` | Percorre o campo e imprime agua, acerto, navio visivel como `1` ou outro valor. |
-| 219 | `    }` | Percorre o campo e imprime agua, acerto, navio visivel como `1` ou outro valor. |
-| 220 | `}` | Fecha a funcao. |
-| 221 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 222 | `/* Imprime o que o jogador humano conhece do campo adversario. */` | Comentario sobre imprimir o campo adversario conhecido. |
-| 223 | `void imprimirCampoAdversario(int **campo, int tamanho)` | Inicio da funcao `imprimirCampoAdversario`. |
-| 224 | `{` | Abre ou fecha um bloco de codigo. |
-| 225 | `    int i;` | Cria contadores de linha e coluna. |
-| 226 | `    int j;` | Cria contadores de linha e coluna. |
-| 227 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 228 | `    imprimirCabecalho(tamanho);` | Imprime o cabecalho. |
+| 194 | `    imprimirCabecalho(tamanho);` | Executa uma instrucao do programa. |
+| 195 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 196 | `    for (i = 0; i &lt; tamanho; i++)` | Percorre todas as linhas do campo. |
+| 197 | `    {` | Abre ou fecha um bloco de codigo. |
+| 198 | `        printf("%3d &#124;", i + 1);` | Mostra uma mensagem na tela. |
+| 199 | `        for (j = 0; j &lt; tamanho; j++)` | Percorre todas as colunas da linha atual. |
+| 200 | `        {` | Abre ou fecha um bloco de codigo. |
+| 201 | `            valor = campo[i][j];` | Percorre o campo e imprime agua, acerto, navio visivel como `1` ou outro valor. |
+| 202 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 203 | `            if (valor == AGUA)` | Percorre o campo e imprime agua, acerto, navio visivel como `1` ou outro valor. |
+| 204 | `            {` | Abre ou fecha um bloco de codigo. |
+| 205 | `                printf("%3d", AGUA);` | Percorre o campo e imprime agua, acerto, navio visivel como `1` ou outro valor. |
+| 206 | `            }` | Fecha um bloco de codigo. |
+| 207 | `            else if (valor == NAVIO_ACERTADO)` | Percorre o campo e imprime agua, acerto, navio visivel como `1` ou outro valor. |
+| 208 | `            {` | Abre ou fecha um bloco de codigo. |
+| 209 | `                printf("%3d", NAVIO_ACERTADO);` | Percorre o campo e imprime agua, acerto, navio visivel como `1` ou outro valor. |
+| 210 | `            }` | Fecha um bloco de codigo. |
+| 211 | `            else if (valor &gt;= NAVIO_BASE)` | Percorre o campo e imprime agua, acerto, navio visivel como `1` ou outro valor. |
+| 212 | `            {` | Abre ou fecha um bloco de codigo. |
+| 213 | `                printf("%3d", 1);` | Percorre o campo e imprime agua, acerto, navio visivel como `1` ou outro valor. |
+| 214 | `            }` | Fecha um bloco de codigo. |
+| 215 | `            else` | Caso contrario, executa o outro bloco. |
+| 216 | `            {` | Abre ou fecha um bloco de codigo. |
+| 217 | `                printf("%3d", valor);` | Percorre o campo e imprime agua, acerto, navio visivel como `1` ou outro valor. |
+| 218 | `            }` | Fecha um bloco de codigo. |
+| 219 | `        }` | Fecha um bloco de codigo. |
+| 220 | `        printf("\n");` | Mostra uma mensagem na tela. |
+| 221 | `    }` | Fecha um bloco de codigo. |
+| 222 | `}` | Fecha um bloco de codigo. |
+| 223 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 224 | `/* Imprime o que o jogador humano conhece do campo adversario. */` | Comentario sobre imprimir o campo adversario conhecido. |
+| 225 | `void imprimirCampoAdversario(int **campo, int tamanho)` | Inicio da funcao `imprimirCampoAdversario`. |
+| 226 | `{` | Abre um bloco de codigo. |
+| 227 | `    int i;` | Cria um contador para laco. |
+| 228 | `    int j;` | Cria um contador para laco. |
 | 229 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 230 | `    for (i = 0; i &lt; tamanho; i++)` | Percorre e imprime todos os valores conhecidos do campo adversario. |
-| 231 | `    {` | Percorre e imprime todos os valores conhecidos do campo adversario. |
-| 232 | `        printf("%3d &#124;", i + 1);` | Percorre e imprime todos os valores conhecidos do campo adversario. |
-| 233 | `        for (j = 0; j &lt; tamanho; j++)` | Percorre e imprime todos os valores conhecidos do campo adversario. |
-| 234 | `        {` | Percorre e imprime todos os valores conhecidos do campo adversario. |
-| 235 | `            printf("%3d", campo[i][j]);` | Percorre e imprime todos os valores conhecidos do campo adversario. |
-| 236 | `        }` | Percorre e imprime todos os valores conhecidos do campo adversario. |
-| 237 | `        printf("\n");` | Percorre e imprime todos os valores conhecidos do campo adversario. |
-| 238 | `    }` | Percorre e imprime todos os valores conhecidos do campo adversario. |
-| 239 | `}` | Fecha a funcao. |
-| 240 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 241 | `/* Converte o valor interno do campo proprio para o numero que aparece na tela. */` | Comentario sobre converter valor interno em valor visivel. |
-| 242 | `int valorVisivelCampoProprio(int valor)` | Inicio da funcao `valorVisivelCampoProprio`. |
-| 243 | `{` | Abre ou fecha um bloco de codigo. |
-| 244 | `    if (valor == AGUA)` | Se for agua, retorna `0`. |
-| 245 | `    {` | Se for agua, retorna `0`. |
-| 246 | `        return AGUA;` | Se for agua, retorna `0`. |
-| 247 | `    }` | Se for agua, retorna `0`. |
-| 248 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 249 | `    if (valor == NAVIO_ACERTADO)` | Se for navio acertado, retorna `2`. |
-| 250 | `    {` | Se for navio acertado, retorna `2`. |
-| 251 | `        return NAVIO_ACERTADO;` | Se for navio acertado, retorna `2`. |
-| 252 | `    }` | Se for navio acertado, retorna `2`. |
-| 253 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 254 | `    if (valor &gt;= NAVIO_BASE)` | Se for parte de navio ainda inteiro, mostra como `1`. |
-| 255 | `    {` | Se for parte de navio ainda inteiro, mostra como `1`. |
-| 256 | `        return 1;` | Se for parte de navio ainda inteiro, mostra como `1`. |
-| 257 | `    }` | Se for parte de navio ainda inteiro, mostra como `1`. |
-| 258 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 259 | `    return valor;` | Retorna outros valores sem alterar. |
-| 260 | `}` | Fecha a funcao. |
-| 261 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 262 | `/* Imprime uma linha com os indices das colunas para dois campos juntos. */` | Comentario sobre cabecalho duplo. |
-| 263 | `void imprimirCabecalhoDuplo(int tamanho)` | Inicio da funcao `imprimirCabecalhoDuplo`. |
-| 264 | `{` | Abre ou fecha um bloco de codigo. |
-| 265 | `    int j;` | Cria o contador de colunas. |
-| 266 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 267 | `    printf("     ");` | Imprime os numeros das colunas dos dois campos lado a lado. |
-| 268 | `    for (j = 0; j &lt; tamanho; j++)` | Imprime os numeros das colunas dos dois campos lado a lado. |
-| 269 | `    {` | Imprime os numeros das colunas dos dois campos lado a lado. |
-| 270 | `        printf("%3d", j + 1);` | Imprime os numeros das colunas dos dois campos lado a lado. |
-| 271 | `    }` | Imprime os numeros das colunas dos dois campos lado a lado. |
-| 272 | &nbsp; | Imprime os numeros das colunas dos dois campos lado a lado. |
-| 273 | `    printf(" &#124; ");` | Imprime os numeros das colunas dos dois campos lado a lado. |
-| 274 | &nbsp; | Imprime os numeros das colunas dos dois campos lado a lado. |
-| 275 | `    printf("     ");` | Imprime os numeros das colunas dos dois campos lado a lado. |
-| 276 | `    for (j = 0; j &lt; tamanho; j++)` | Imprime os numeros das colunas dos dois campos lado a lado. |
-| 277 | `    {` | Imprime os numeros das colunas dos dois campos lado a lado. |
-| 278 | `        printf("%3d", j + 1);` | Imprime os numeros das colunas dos dois campos lado a lado. |
-| 279 | `    }` | Imprime os numeros das colunas dos dois campos lado a lado. |
-| 280 | `    printf("\n");` | Imprime os numeros das colunas dos dois campos lado a lado. |
-| 281 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 282 | `    printf("    +");` | Imprime as linhas separadoras dos dois campos lado a lado. |
-| 283 | `    for (j = 0; j &lt; tamanho; j++)` | Imprime as linhas separadoras dos dois campos lado a lado. |
-| 284 | `    {` | Imprime as linhas separadoras dos dois campos lado a lado. |
-| 285 | `        printf("---");` | Imprime as linhas separadoras dos dois campos lado a lado. |
-| 286 | `    }` | Imprime as linhas separadoras dos dois campos lado a lado. |
-| 287 | &nbsp; | Imprime as linhas separadoras dos dois campos lado a lado. |
-| 288 | `    printf(" &#124; ");` | Imprime as linhas separadoras dos dois campos lado a lado. |
-| 289 | &nbsp; | Imprime as linhas separadoras dos dois campos lado a lado. |
-| 290 | `    printf("    +");` | Imprime as linhas separadoras dos dois campos lado a lado. |
-| 291 | `    for (j = 0; j &lt; tamanho; j++)` | Imprime as linhas separadoras dos dois campos lado a lado. |
-| 292 | `    {` | Imprime as linhas separadoras dos dois campos lado a lado. |
-| 293 | `        printf("---");` | Imprime as linhas separadoras dos dois campos lado a lado. |
-| 294 | `    }` | Imprime as linhas separadoras dos dois campos lado a lado. |
-| 295 | `    printf("\n");` | Imprime as linhas separadoras dos dois campos lado a lado. |
-| 296 | `}` | Fecha a funcao. |
-| 297 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 298 | `/* Imprime o campo do jogador e o campo conhecido do computador juntos. */` | Comentario sobre imprimir dois campos lado a lado. |
-| 299 | `void imprimirCamposLadoALado(int **campoHumano, int **campoComputador, int tamanho)` | Inicio da funcao `imprimirCamposLadoALado`. |
-| 300 | `{` | Abre ou fecha um bloco de codigo. |
-| 301 | `    int i;` | Cria contadores e a variavel de valor. |
-| 302 | `    int j;` | Cria contadores e a variavel de valor. |
-| 303 | `    int valor;` | Cria contadores e a variavel de valor. |
-| 304 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 305 | `    imprimirCabecalhoDuplo(tamanho);` | Imprime o cabecalho duplo. |
+| 230 | `    imprimirCabecalho(tamanho);` | Executa uma instrucao do programa. |
+| 231 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 232 | `    for (i = 0; i &lt; tamanho; i++)` | Percorre todas as linhas do campo. |
+| 233 | `    {` | Abre ou fecha um bloco de codigo. |
+| 234 | `        printf("%3d &#124;", i + 1);` | Mostra uma mensagem na tela. |
+| 235 | `        for (j = 0; j &lt; tamanho; j++)` | Percorre todas as colunas da linha atual. |
+| 236 | `        {` | Abre ou fecha um bloco de codigo. |
+| 237 | `            printf("%3d", campo[i][j]);` | Percorre e imprime todos os valores conhecidos do campo adversario. |
+| 238 | `        }` | Fecha um bloco de codigo. |
+| 239 | `        printf("\n");` | Mostra uma mensagem na tela. |
+| 240 | `    }` | Fecha um bloco de codigo. |
+| 241 | `}` | Fecha um bloco de codigo. |
+| 242 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 243 | `/* Converte o valor interno do campo proprio para o numero que aparece na tela. */` | Comentario sobre converter valor interno em valor visivel. |
+| 244 | `int valorVisivelCampoProprio(int valor)` | Inicio da funcao `valorVisivelCampoProprio`. |
+| 245 | `{` | Abre um bloco de codigo. |
+| 246 | `    if (valor == AGUA)` | Verifica uma condicao para decidir o que fazer. |
+| 247 | `    {` | Abre ou fecha um bloco de codigo. |
+| 248 | `        return AGUA;` | Se for agua, retorna `0`. |
+| 249 | `    }` | Fecha um bloco de codigo. |
+| 250 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 251 | `    if (valor == NAVIO_ACERTADO)` | Se for navio acertado, retorna `2`. |
+| 252 | `    {` | Abre ou fecha um bloco de codigo. |
+| 253 | `        return NAVIO_ACERTADO;` | Se for navio acertado, retorna `2`. |
+| 254 | `    }` | Fecha um bloco de codigo. |
+| 255 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 256 | `    if (valor &gt;= NAVIO_BASE)` | Verifica uma condicao para decidir o que fazer. |
+| 257 | `    {` | Abre ou fecha um bloco de codigo. |
+| 258 | `        return 1;` | Se for parte de navio ainda inteiro, mostra como `1`. |
+| 259 | `    }` | Fecha um bloco de codigo. |
+| 260 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 261 | `    return valor;` | Retorna um valor ou encerra a funcao. |
+| 262 | `}` | Fecha um bloco de codigo. |
+| 263 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 264 | `/* Imprime uma linha com os indices das colunas para dois campos juntos. */` | Comentario sobre cabecalho duplo. |
+| 265 | `void imprimirCabecalhoDuplo(int tamanho)` | Inicio da funcao `imprimirCabecalhoDuplo`. |
+| 266 | `{` | Abre um bloco de codigo. |
+| 267 | `    int j;` | Cria um contador para laco. |
+| 268 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 269 | `    printf("     ");` | Mostra uma mensagem na tela. |
+| 270 | `    for (j = 0; j &lt; tamanho; j++)` | Comeca um laco de repeticao. |
+| 271 | `    {` | Abre ou fecha um bloco de codigo. |
+| 272 | `        printf("%3d", j + 1);` | Mostra uma mensagem na tela. |
+| 273 | `    }` | Fecha um bloco de codigo. |
+| 274 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 275 | `    printf(" &#124; ");` | Mostra uma mensagem na tela. |
+| 276 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 277 | `    printf("     ");` | Mostra uma mensagem na tela. |
+| 278 | `    for (j = 0; j &lt; tamanho; j++)` | Comeca um laco de repeticao. |
+| 279 | `    {` | Abre ou fecha um bloco de codigo. |
+| 280 | `        printf("%3d", j + 1);` | Mostra uma mensagem na tela. |
+| 281 | `    }` | Fecha um bloco de codigo. |
+| 282 | `    printf("\n");` | Mostra uma mensagem na tela. |
+| 283 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 284 | `    printf("    +");` | Mostra uma mensagem na tela. |
+| 285 | `    for (j = 0; j &lt; tamanho; j++)` | Comeca um laco de repeticao. |
+| 286 | `    {` | Abre ou fecha um bloco de codigo. |
+| 287 | `        printf("---");` | Mostra uma mensagem na tela. |
+| 288 | `    }` | Fecha um bloco de codigo. |
+| 289 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 290 | `    printf(" &#124; ");` | Mostra uma mensagem na tela. |
+| 291 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 292 | `    printf("    +");` | Mostra uma mensagem na tela. |
+| 293 | `    for (j = 0; j &lt; tamanho; j++)` | Comeca um laco de repeticao. |
+| 294 | `    {` | Abre ou fecha um bloco de codigo. |
+| 295 | `        printf("---");` | Mostra uma mensagem na tela. |
+| 296 | `    }` | Fecha um bloco de codigo. |
+| 297 | `    printf("\n");` | Mostra uma mensagem na tela. |
+| 298 | `}` | Fecha um bloco de codigo. |
+| 299 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 300 | `/* Imprime o campo do jogador e o campo conhecido do computador juntos. */` | Comentario sobre imprimir dois campos lado a lado. |
+| 301 | `void imprimirCamposLadoALado(int **campoHumano, int **campoComputador, int tamanho)` | Inicio da funcao `imprimirCamposLadoALado`. |
+| 302 | `{` | Abre um bloco de codigo. |
+| 303 | `    int i;` | Cria um contador para laco. |
+| 304 | `    int j;` | Cria um contador para laco. |
+| 305 | `    int valor;` | Declara uma variavel inteira. |
 | 306 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 307 | `    for (i = 0; i &lt; tamanho; i++)` | Percorre as linhas e imprime o campo humano e a visao do computador na mesma linha. |
-| 308 | `    {` | Percorre as linhas e imprime o campo humano e a visao do computador na mesma linha. |
-| 309 | `        printf("%3d &#124;", i + 1);` | Percorre as linhas e imprime o campo humano e a visao do computador na mesma linha. |
-| 310 | `        for (j = 0; j &lt; tamanho; j++)` | Percorre as linhas e imprime o campo humano e a visao do computador na mesma linha. |
-| 311 | `        {` | Percorre as linhas e imprime o campo humano e a visao do computador na mesma linha. |
-| 312 | `            valor = valorVisivelCampoProprio(campoHumano[i][j]);` | Percorre as linhas e imprime o campo humano e a visao do computador na mesma linha. |
-| 313 | `            printf("%3d", valor);` | Percorre as linhas e imprime o campo humano e a visao do computador na mesma linha. |
-| 314 | `        }` | Percorre as linhas e imprime o campo humano e a visao do computador na mesma linha. |
-| 315 | &nbsp; | Percorre as linhas e imprime o campo humano e a visao do computador na mesma linha. |
-| 316 | `        printf(" &#124; ");` | Percorre as linhas e imprime o campo humano e a visao do computador na mesma linha. |
-| 317 | &nbsp; | Percorre as linhas e imprime o campo humano e a visao do computador na mesma linha. |
-| 318 | `        printf("%3d &#124;", i + 1);` | Percorre as linhas e imprime o campo humano e a visao do computador na mesma linha. |
-| 319 | `        for (j = 0; j &lt; tamanho; j++)` | Percorre as linhas e imprime o campo humano e a visao do computador na mesma linha. |
-| 320 | `        {` | Percorre as linhas e imprime o campo humano e a visao do computador na mesma linha. |
-| 321 | `            printf("%3d", campoComputador[i][j]);` | Percorre as linhas e imprime o campo humano e a visao do computador na mesma linha. |
-| 322 | `        }` | Percorre as linhas e imprime o campo humano e a visao do computador na mesma linha. |
-| 323 | &nbsp; | Percorre as linhas e imprime o campo humano e a visao do computador na mesma linha. |
-| 324 | `        printf("\n");` | Percorre as linhas e imprime o campo humano e a visao do computador na mesma linha. |
-| 325 | `    }` | Percorre as linhas e imprime o campo humano e a visao do computador na mesma linha. |
-| 326 | `}` | Fecha a funcao. |
-| 327 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 328 | `/* Define a configuracao minima caso nao exista arquivo salvo. */` | Comentario sobre configuracao padrao. |
-| 329 | `void configuracaoPadrao(Configuracao *config)` | Inicio da funcao `configuracaoPadrao`. |
-| 330 | `{` | Abre ou fecha um bloco de codigo. |
-| 331 | `    config-&gt;tamanho = TAMANHO_MINIMO;` | Define o tamanho minimo do campo. |
-| 332 | `    config-&gt;quantidadeNavios = NAVIOS_MINIMOS;` | Define a quantidade minima de navios. |
-| 333 | `}` | Fecha a funcao. |
-| 334 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 335 | `/* Salva somente a configuracao em arquivo binario. */` | Comentario sobre salvar configuracao. |
-| 336 | `int salvarConfiguracao(Configuracao *config)` | Inicio da funcao `salvarConfiguracao`. |
-| 337 | `{` | Abre ou fecha um bloco de codigo. |
-| 338 | `    FILE *arquivo = fopen(ARQUIVO_DADOS, "wb");` | Abre o arquivo binario para escrita. |
-| 339 | `    int temJogo = 0;` | Define que nao existe partida salva, apenas configuracao. |
-| 340 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 341 | `    if (arquivo == NULL)` | Se o arquivo nao abrir, retorna erro. |
-| 342 | `    {` | Se o arquivo nao abrir, retorna erro. |
-| 343 | `        return 0;` | Se o arquivo nao abrir, retorna erro. |
-| 344 | `    }` | Se o arquivo nao abrir, retorna erro. |
-| 345 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 346 | `    fwrite(config, sizeof(Configuracao), 1, arquivo);` | Grava a configuracao no arquivo. |
-| 347 | `    fwrite(&amp;temJogo, sizeof(int), 1, arquivo);` | Grava a informacao de que nao ha jogo salvo. |
-| 348 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 349 | `    fclose(arquivo);` | Fecha o arquivo. |
-| 350 | `    return 1;` | Retorna sucesso. |
-| 351 | `}` | Fecha a funcao. |
-| 352 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 353 | `/* Carrega a configuracao do arquivo binario. */` | Comentario sobre carregar configuracao. |
-| 354 | `int carregarConfiguracao(Configuracao *config)` | Inicio da funcao `carregarConfiguracao`. |
-| 355 | `{` | Abre ou fecha um bloco de codigo. |
-| 356 | `    FILE *arquivo = fopen(ARQUIVO_DADOS, "rb");` | Abre o arquivo binario para leitura. |
-| 357 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 358 | `    if (arquivo == NULL)` | Se o arquivo nao existir, usa a configuracao padrao e retorna erro. |
-| 359 | `    {` | Se o arquivo nao existir, usa a configuracao padrao e retorna erro. |
-| 360 | `        configuracaoPadrao(config);` | Se o arquivo nao existir, usa a configuracao padrao e retorna erro. |
-| 361 | `        return 0;` | Se o arquivo nao existir, usa a configuracao padrao e retorna erro. |
-| 362 | `    }` | Se o arquivo nao existir, usa a configuracao padrao e retorna erro. |
-| 363 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 364 | `    fread(config, sizeof(Configuracao), 1, arquivo);` | Le a configuracao do arquivo. |
-| 365 | `    fclose(arquivo);` | Fecha o arquivo. |
-| 366 | `    return 1;` | Retorna sucesso. |
-| 367 | `}` | Fecha a funcao. |
-| 368 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 369 | `/* Escreve uma matriz no arquivo binario, linha por linha. */` | Comentario sobre escrever matriz no arquivo. |
-| 370 | `void escreverMatriz(FILE *arquivo, int **matriz, int tamanho)` | Inicio da funcao `escreverMatriz`. |
-| 371 | `{` | Abre ou fecha um bloco de codigo. |
-| 372 | `    int i;` | Cria o contador de linhas. |
-| 373 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 374 | `    for (i = 0; i &lt; tamanho; i++)` | Grava cada linha da matriz no arquivo. |
-| 375 | `    {` | Grava cada linha da matriz no arquivo. |
-| 376 | `        fwrite(matriz[i], sizeof(int), tamanho, arquivo);` | Grava cada linha da matriz no arquivo. |
-| 377 | `    }` | Grava cada linha da matriz no arquivo. |
-| 378 | `}` | Fecha a funcao. |
-| 379 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 380 | `/* Le uma matriz do arquivo binario, linha por linha. */` | Comentario sobre ler matriz do arquivo. |
-| 381 | `void lerMatriz(FILE *arquivo, int **matriz, int tamanho)` | Inicio da funcao `lerMatriz`. |
-| 382 | `{` | Abre ou fecha um bloco de codigo. |
-| 383 | `    int i;` | Cria o contador de linhas. |
-| 384 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 385 | `    for (i = 0; i &lt; tamanho; i++)` | Le cada linha da matriz do arquivo. |
-| 386 | `    {` | Le cada linha da matriz do arquivo. |
-| 387 | `        fread(matriz[i], sizeof(int), tamanho, arquivo);` | Le cada linha da matriz do arquivo. |
-| 388 | `    }` | Le cada linha da matriz do arquivo. |
-| 389 | `}` | Fecha a funcao. |
-| 390 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 391 | `/* Salva uma partida completa em arquivo binario. */` | Comentario sobre salvar partida completa. |
-| 392 | `int salvarJogo(Jogo *jogo)` | Inicio da funcao `salvarJogo`. |
-| 393 | `{` | Abre ou fecha um bloco de codigo. |
-| 394 | `    FILE *arquivo = fopen(ARQUIVO_DADOS, "wb");` | Abre o arquivo binario para escrita. |
-| 395 | `    int temJogo = 1;` | Marca que existe jogo salvo. |
-| 396 | `    int tamanho = jogo-&gt;config.tamanho;` | Guarda o tamanho do campo em uma variavel. |
-| 397 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 398 | `    if (arquivo == NULL)` | Se o arquivo nao abrir, retorna erro. |
-| 399 | `    {` | Se o arquivo nao abrir, retorna erro. |
-| 400 | `        return 0;` | Se o arquivo nao abrir, retorna erro. |
-| 401 | `    }` | Se o arquivo nao abrir, retorna erro. |
-| 402 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 403 | `    fwrite(&amp;jogo-&gt;config, sizeof(Configuracao), 1, arquivo);` | Salva configuracao, existencia do jogo, turno e estado da partida. |
-| 404 | `    fwrite(&amp;temJogo, sizeof(int), 1, arquivo);` | Salva configuracao, existencia do jogo, turno e estado da partida. |
-| 405 | `    fwrite(&amp;jogo-&gt;turno, sizeof(int), 1, arquivo);` | Salva configuracao, existencia do jogo, turno e estado da partida. |
-| 406 | `    fwrite(&amp;jogo-&gt;emAndamento, sizeof(int), 1, arquivo);` | Salva configuracao, existencia do jogo, turno e estado da partida. |
-| 407 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 408 | `    fwrite(&amp;jogo-&gt;humano.totalNavios, sizeof(int), 1, arquivo);` | Salva dados, navios e matrizes do jogador humano. |
-| 409 | `    fwrite(&amp;jogo-&gt;humano.naviosAfundados, sizeof(int), 1, arquivo);` | Salva dados, navios e matrizes do jogador humano. |
-| 410 | `    fwrite(jogo-&gt;humano.navios, sizeof(Navio), jogo-&gt;humano.totalNavios, arquivo);` | Salva dados, navios e matrizes do jogador humano. |
-| 411 | `    escreverMatriz(arquivo, jogo-&gt;humano.campo, tamanho);` | Salva dados, navios e matrizes do jogador humano. |
-| 412 | `    escreverMatriz(arquivo, jogo-&gt;humano.visaoAdversario, tamanho);` | Salva dados, navios e matrizes do jogador humano. |
-| 413 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 414 | `    fwrite(&amp;jogo-&gt;computador.totalNavios, sizeof(int), 1, arquivo);` | Salva dados, navios e matrizes do computador. |
-| 415 | `    fwrite(&amp;jogo-&gt;computador.naviosAfundados, sizeof(int), 1, arquivo);` | Salva dados, navios e matrizes do computador. |
-| 416 | `    fwrite(jogo-&gt;computador.navios, sizeof(Navio), jogo-&gt;computador.totalNavios, arquivo);` | Salva dados, navios e matrizes do computador. |
-| 417 | `    escreverMatriz(arquivo, jogo-&gt;computador.campo, tamanho);` | Salva dados, navios e matrizes do computador. |
-| 418 | `    escreverMatriz(arquivo, jogo-&gt;computador.visaoAdversario, tamanho);` | Salva dados, navios e matrizes do computador. |
-| 419 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 420 | `    fclose(arquivo);` | Fecha o arquivo. |
-| 421 | `    return 1;` | Retorna sucesso. |
-| 422 | `}` | Fecha a funcao. |
-| 423 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 424 | `/* Carrega uma partida completa do arquivo binario. */` | Comentario sobre carregar partida completa. |
-| 425 | `int carregarJogo(Jogo *jogo)` | Inicio da funcao `carregarJogo`. |
-| 426 | `{` | Abre ou fecha um bloco de codigo. |
-| 427 | `    FILE *arquivo = fopen(ARQUIVO_DADOS, "rb");` | Abre o arquivo binario para leitura. |
-| 428 | `    int temJogo;` | Cria variavel que indica se existe jogo salvo. |
-| 429 | `    int tamanho;` | Cria variavel para o tamanho do campo. |
-| 430 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 431 | `    if (arquivo == NULL)` | Se o arquivo nao abrir, retorna erro. |
-| 432 | `    {` | Se o arquivo nao abrir, retorna erro. |
-| 433 | `        return 0;` | Se o arquivo nao abrir, retorna erro. |
-| 434 | `    }` | Se o arquivo nao abrir, retorna erro. |
-| 435 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 436 | `    fread(&amp;jogo-&gt;config, sizeof(Configuracao), 1, arquivo);` | Le configuracao e indicador de jogo salvo. |
-| 437 | `    fread(&amp;temJogo, sizeof(int), 1, arquivo);` | Le configuracao e indicador de jogo salvo. |
-| 438 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 439 | `    if (temJogo == 0)` | Se nao houver jogo salvo, fecha o arquivo e retorna erro. |
-| 440 | `    {` | Se nao houver jogo salvo, fecha o arquivo e retorna erro. |
-| 441 | `        fclose(arquivo);` | Se nao houver jogo salvo, fecha o arquivo e retorna erro. |
-| 442 | `        return 0;` | Se nao houver jogo salvo, fecha o arquivo e retorna erro. |
-| 443 | `    }` | Se nao houver jogo salvo, fecha o arquivo e retorna erro. |
-| 444 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 445 | `    tamanho = jogo-&gt;config.tamanho;` | Copia o tamanho da configuracao. |
+| 307 | `    imprimirCabecalhoDuplo(tamanho);` | Imprime o cabecalho duplo. |
+| 308 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 309 | `    for (i = 0; i &lt; tamanho; i++)` | Percorre todas as linhas do campo. |
+| 310 | `    {` | Abre ou fecha um bloco de codigo. |
+| 311 | `        printf("%3d &#124;", i + 1);` | Mostra uma mensagem na tela. |
+| 312 | `        for (j = 0; j &lt; tamanho; j++)` | Percorre todas as colunas da linha atual. |
+| 313 | `        {` | Abre ou fecha um bloco de codigo. |
+| 314 | `            valor = valorVisivelCampoProprio(campoHumano[i][j]);` | Percorre as linhas e imprime o campo humano e a visao do computador na mesma linha. |
+| 315 | `            printf("%3d", valor);` | Percorre as linhas e imprime o campo humano e a visao do computador na mesma linha. |
+| 316 | `        }` | Fecha um bloco de codigo. |
+| 317 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 318 | `        printf(" &#124; ");` | Percorre as linhas e imprime o campo humano e a visao do computador na mesma linha. |
+| 319 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 320 | `        printf("%3d &#124;", i + 1);` | Mostra uma mensagem na tela. |
+| 321 | `        for (j = 0; j &lt; tamanho; j++)` | Percorre todas as colunas da linha atual. |
+| 322 | `        {` | Abre ou fecha um bloco de codigo. |
+| 323 | `            printf("%3d", campoComputador[i][j]);` | Percorre as linhas e imprime o campo humano e a visao do computador na mesma linha. |
+| 324 | `        }` | Fecha um bloco de codigo. |
+| 325 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 326 | `        printf("\n");` | Mostra uma mensagem na tela. |
+| 327 | `    }` | Fecha um bloco de codigo. |
+| 328 | `}` | Fecha um bloco de codigo. |
+| 329 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 330 | `/* Define a configuracao minima caso nao exista arquivo salvo. */` | Comentario sobre configuracao padrao. |
+| 331 | `void configuracaoPadrao(Configuracao *config)` | Inicio da funcao `configuracaoPadrao`. |
+| 332 | `{` | Abre um bloco de codigo. |
+| 333 | `    config-&gt;tamanho = TAMANHO_MINIMO;` | Define o tamanho minimo do campo. |
+| 334 | `    config-&gt;quantidadeNavios = NAVIOS_MINIMOS;` | Define a quantidade minima de navios. |
+| 335 | `}` | Fecha um bloco de codigo. |
+| 336 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 337 | `/* Salva somente a configuracao em arquivo binario. */` | Comentario sobre salvar configuracao. |
+| 338 | `int salvarConfiguracao(Configuracao *config)` | Inicio da funcao `salvarConfiguracao`. |
+| 339 | `{` | Abre um bloco de codigo. |
+| 340 | `    FILE *arquivo = fopen(ARQUIVO_DADOS, "wb");` | Declara ou inicia uma funcao ou variavel usada no programa. |
+| 341 | `    int temJogo = 0;` | Define que nao existe partida salva, apenas configuracao. |
+| 342 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 343 | `    if (arquivo == NULL)` | Verifica uma condicao para decidir o que fazer. |
+| 344 | `    {` | Abre ou fecha um bloco de codigo. |
+| 345 | `        return 0;` | Retorna um valor ou encerra a funcao. |
+| 346 | `    }` | Fecha um bloco de codigo. |
+| 347 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 348 | `    fwrite(config, sizeof(Configuracao), 1, arquivo);` | Grava a configuracao no arquivo. |
+| 349 | `    fwrite(&amp;temJogo, sizeof(int), 1, arquivo);` | Grava dados no arquivo binario. |
+| 350 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 351 | `    fclose(arquivo);` | Executa uma instrucao do programa. |
+| 352 | `    return 1;` | Retorna um valor ou encerra a funcao. |
+| 353 | `}` | Fecha um bloco de codigo. |
+| 354 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 355 | `/* Carrega a configuracao do arquivo binario. */` | Comentario sobre carregar configuracao. |
+| 356 | `int carregarConfiguracao(Configuracao *config)` | Inicio da funcao `carregarConfiguracao`. |
+| 357 | `{` | Abre um bloco de codigo. |
+| 358 | `    FILE *arquivo = fopen(ARQUIVO_DADOS, "rb");` | Declara ou inicia uma funcao ou variavel usada no programa. |
+| 359 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 360 | `    if (arquivo == NULL)` | Verifica uma condicao para decidir o que fazer. |
+| 361 | `    {` | Abre ou fecha um bloco de codigo. |
+| 362 | `        configuracaoPadrao(config);` | Se o arquivo nao existir, usa a configuracao padrao e retorna erro. |
+| 363 | `        return 0;` | Retorna um valor ou encerra a funcao. |
+| 364 | `    }` | Fecha um bloco de codigo. |
+| 365 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 366 | `    fread(config, sizeof(Configuracao), 1, arquivo);` | Le a configuracao do arquivo. |
+| 367 | `    fclose(arquivo);` | Executa uma instrucao do programa. |
+| 368 | `    return 1;` | Retorna um valor ou encerra a funcao. |
+| 369 | `}` | Fecha um bloco de codigo. |
+| 370 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 371 | `/* Escreve uma matriz no arquivo binario, linha por linha. */` | Comentario sobre escrever matriz no arquivo. |
+| 372 | `void escreverMatriz(FILE *arquivo, int **matriz, int tamanho)` | Inicio da funcao `escreverMatriz`. |
+| 373 | `{` | Abre um bloco de codigo. |
+| 374 | `    int i;` | Cria um contador para laco. |
+| 375 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 376 | `    for (i = 0; i &lt; tamanho; i++)` | Percorre todas as linhas do campo. |
+| 377 | `    {` | Abre ou fecha um bloco de codigo. |
+| 378 | `        fwrite(matriz[i], sizeof(int), tamanho, arquivo);` | Grava cada linha da matriz no arquivo. |
+| 379 | `    }` | Fecha um bloco de codigo. |
+| 380 | `}` | Fecha um bloco de codigo. |
+| 381 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 382 | `/* Le uma matriz do arquivo binario, linha por linha. */` | Comentario sobre ler matriz do arquivo. |
+| 383 | `void lerMatriz(FILE *arquivo, int **matriz, int tamanho)` | Inicio da funcao `lerMatriz`. |
+| 384 | `{` | Abre um bloco de codigo. |
+| 385 | `    int i;` | Cria um contador para laco. |
+| 386 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 387 | `    for (i = 0; i &lt; tamanho; i++)` | Percorre todas as linhas do campo. |
+| 388 | `    {` | Abre ou fecha um bloco de codigo. |
+| 389 | `        fread(matriz[i], sizeof(int), tamanho, arquivo);` | Le cada linha da matriz do arquivo. |
+| 390 | `    }` | Fecha um bloco de codigo. |
+| 391 | `}` | Fecha um bloco de codigo. |
+| 392 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 393 | `/* Salva uma partida completa em arquivo binario. */` | Comentario sobre salvar partida completa. |
+| 394 | `int salvarJogo(Jogo *jogo)` | Inicio da funcao `salvarJogo`. |
+| 395 | `{` | Abre um bloco de codigo. |
+| 396 | `    FILE *arquivo = fopen(ARQUIVO_DADOS, "wb");` | Declara ou inicia uma funcao ou variavel usada no programa. |
+| 397 | `    int temJogo = 1;` | Marca que existe jogo salvo. |
+| 398 | `    int tamanho = jogo-&gt;config.tamanho;` | Declara uma variavel inteira. |
+| 399 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 400 | `    if (arquivo == NULL)` | Verifica uma condicao para decidir o que fazer. |
+| 401 | `    {` | Abre ou fecha um bloco de codigo. |
+| 402 | `        return 0;` | Retorna um valor ou encerra a funcao. |
+| 403 | `    }` | Fecha um bloco de codigo. |
+| 404 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 405 | `    fwrite(&amp;jogo-&gt;config, sizeof(Configuracao), 1, arquivo);` | Salva configuracao, existencia do jogo, turno e estado da partida. |
+| 406 | `    fwrite(&amp;temJogo, sizeof(int), 1, arquivo);` | Grava dados no arquivo binario. |
+| 407 | `    fwrite(&amp;jogo-&gt;turno, sizeof(int), 1, arquivo);` | Salva configuracao, existencia do jogo, turno e estado da partida. |
+| 408 | `    fwrite(&amp;jogo-&gt;emAndamento, sizeof(int), 1, arquivo);` | Salva configuracao, existencia do jogo, turno e estado da partida. |
+| 409 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 410 | `    fwrite(&amp;jogo-&gt;humano.totalNavios, sizeof(int), 1, arquivo);` | Salva dados, navios e matrizes do jogador humano. |
+| 411 | `    fwrite(&amp;jogo-&gt;humano.naviosAfundados, sizeof(int), 1, arquivo);` | Salva dados, navios e matrizes do jogador humano. |
+| 412 | `    fwrite(jogo-&gt;humano.navios, sizeof(Navio), jogo-&gt;humano.totalNavios, arquivo);` | Salva dados, navios e matrizes do jogador humano. |
+| 413 | `    escreverMatriz(arquivo, jogo-&gt;humano.campo, tamanho);` | Salva dados, navios e matrizes do jogador humano. |
+| 414 | `    escreverMatriz(arquivo, jogo-&gt;humano.visaoAdversario, tamanho);` | Salva dados, navios e matrizes do jogador humano. |
+| 415 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 416 | `    fwrite(&amp;jogo-&gt;computador.totalNavios, sizeof(int), 1, arquivo);` | Salva dados, navios e matrizes do computador. |
+| 417 | `    fwrite(&amp;jogo-&gt;computador.naviosAfundados, sizeof(int), 1, arquivo);` | Salva dados, navios e matrizes do computador. |
+| 418 | `    fwrite(jogo-&gt;computador.navios, sizeof(Navio), jogo-&gt;computador.totalNavios, arquivo);` | Salva dados, navios e matrizes do computador. |
+| 419 | `    escreverMatriz(arquivo, jogo-&gt;computador.campo, tamanho);` | Salva dados, navios e matrizes do computador. |
+| 420 | `    escreverMatriz(arquivo, jogo-&gt;computador.visaoAdversario, tamanho);` | Salva dados, navios e matrizes do computador. |
+| 421 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 422 | `    fclose(arquivo);` | Executa uma instrucao do programa. |
+| 423 | `    return 1;` | Retorna um valor ou encerra a funcao. |
+| 424 | `}` | Fecha um bloco de codigo. |
+| 425 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 426 | `/* Carrega uma partida completa do arquivo binario. */` | Comentario sobre carregar partida completa. |
+| 427 | `int carregarJogo(Jogo *jogo)` | Inicio da funcao `carregarJogo`. |
+| 428 | `{` | Abre um bloco de codigo. |
+| 429 | `    FILE *arquivo = fopen(ARQUIVO_DADOS, "rb");` | Declara ou inicia uma funcao ou variavel usada no programa. |
+| 430 | `    int temJogo;` | Cria variavel que indica se existe jogo salvo. |
+| 431 | `    int tamanho;` | Declara uma variavel inteira. |
+| 432 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 433 | `    if (arquivo == NULL)` | Verifica uma condicao para decidir o que fazer. |
+| 434 | `    {` | Abre ou fecha um bloco de codigo. |
+| 435 | `        return 0;` | Retorna um valor ou encerra a funcao. |
+| 436 | `    }` | Fecha um bloco de codigo. |
+| 437 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 438 | `    fread(&amp;jogo-&gt;config, sizeof(Configuracao), 1, arquivo);` | Le configuracao e indicador de jogo salvo. |
+| 439 | `    fread(&amp;temJogo, sizeof(int), 1, arquivo);` | Le configuracao e indicador de jogo salvo. |
+| 440 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 441 | `    if (temJogo == 0)` | Se nao houver jogo salvo, fecha o arquivo e retorna erro. |
+| 442 | `    {` | Abre ou fecha um bloco de codigo. |
+| 443 | `        fclose(arquivo);` | Se nao houver jogo salvo, fecha o arquivo e retorna erro. |
+| 444 | `        return 0;` | Retorna um valor ou encerra a funcao. |
+| 445 | `    }` | Fecha um bloco de codigo. |
 | 446 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 447 | `    fread(&amp;jogo-&gt;turno, sizeof(int), 1, arquivo);` | Le turno e estado da partida. |
-| 448 | `    fread(&amp;jogo-&gt;emAndamento, sizeof(int), 1, arquivo);` | Le turno e estado da partida. |
-| 449 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 450 | `    fread(&amp;jogo-&gt;humano.totalNavios, sizeof(int), 1, arquivo);` | Le dados do jogador humano e recria suas matrizes. |
-| 451 | `    fread(&amp;jogo-&gt;humano.naviosAfundados, sizeof(int), 1, arquivo);` | Le dados do jogador humano e recria suas matrizes. |
-| 452 | `    jogo-&gt;humano.navios = (Navio *)malloc(jogo-&gt;humano.totalNavios * sizeof(Navio));` | Le dados do jogador humano e recria suas matrizes. |
-| 453 | `    jogo-&gt;humano.campo = criarMatriz(tamanho);` | Le dados do jogador humano e recria suas matrizes. |
-| 454 | `    jogo-&gt;humano.visaoAdversario = criarMatriz(tamanho);` | Le dados do jogador humano e recria suas matrizes. |
-| 455 | `    fread(jogo-&gt;humano.navios, sizeof(Navio), jogo-&gt;humano.totalNavios, arquivo);` | Le dados do jogador humano e recria suas matrizes. |
-| 456 | `    lerMatriz(arquivo, jogo-&gt;humano.campo, tamanho);` | Le dados do jogador humano e recria suas matrizes. |
-| 457 | `    lerMatriz(arquivo, jogo-&gt;humano.visaoAdversario, tamanho);` | Le dados do jogador humano e recria suas matrizes. |
-| 458 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 459 | `    fread(&amp;jogo-&gt;computador.totalNavios, sizeof(int), 1, arquivo);` | Le dados do computador e recria suas matrizes. |
-| 460 | `    fread(&amp;jogo-&gt;computador.naviosAfundados, sizeof(int), 1, arquivo);` | Le dados do computador e recria suas matrizes. |
-| 461 | `    jogo-&gt;computador.navios = (Navio *)malloc(jogo-&gt;computador.totalNavios * sizeof(Navio));` | Le dados do computador e recria suas matrizes. |
-| 462 | `    jogo-&gt;computador.campo = criarMatriz(tamanho);` | Le dados do computador e recria suas matrizes. |
-| 463 | `    jogo-&gt;computador.visaoAdversario = criarMatriz(tamanho);` | Le dados do computador e recria suas matrizes. |
-| 464 | `    fread(jogo-&gt;computador.navios, sizeof(Navio), jogo-&gt;computador.totalNavios, arquivo);` | Le dados do computador e recria suas matrizes. |
-| 465 | `    lerMatriz(arquivo, jogo-&gt;computador.campo, tamanho);` | Le dados do computador e recria suas matrizes. |
-| 466 | `    lerMatriz(arquivo, jogo-&gt;computador.visaoAdversario, tamanho);` | Le dados do computador e recria suas matrizes. |
-| 467 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 468 | `    fclose(arquivo);` | Fecha o arquivo. |
-| 469 | `    return 1;` | Retorna sucesso. |
-| 470 | `}` | Fecha a funcao. |
-| 471 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 472 | `/* Verifica se duas posicoes estao livres para colocar um navio. */` | Comentario sobre verificar posicoes livres. |
-| 473 | `int posicaoLivre(int **campo, int linha1, int coluna1, int linha2, int coluna2)` | Inicio da funcao `posicaoLivre`. |
-| 474 | `{` | Abre ou fecha um bloco de codigo. |
-| 475 | `    return campo[linha1][coluna1] == AGUA &amp;&amp; campo[linha2][coluna2] == AGUA;` | Retorna verdadeiro se as duas posicoes estiverem com agua. |
-| 476 | `}` | Fecha a funcao. |
-| 477 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 478 | `/* Sorteia todos os navios de um jogador sem deixar sobrepor. */` | Comentario sobre sortear navios. |
-| 479 | `void posicionarNavios(Jogador *jogador, int tamanho)` | Inicio da funcao `posicionarNavios`. |
-| 480 | `{` | Abre ou fecha um bloco de codigo. |
-| 481 | `    int i;` | Cria variaveis usadas para sortear posicoes e direcao. |
-| 482 | `    int linha;` | Cria variaveis usadas para sortear posicoes e direcao. |
-| 483 | `    int coluna;` | Cria variaveis usadas para sortear posicoes e direcao. |
-| 484 | `    int direcao;` | Cria variaveis usadas para sortear posicoes e direcao. |
-| 485 | `    int linha2;` | Cria variaveis usadas para sortear posicoes e direcao. |
-| 486 | `    int coluna2;` | Cria variaveis usadas para sortear posicoes e direcao. |
-| 487 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 488 | `    for (i = 0; i &lt; jogador-&gt;totalNavios; i++)` | Comeca um laco para posicionar todos os navios. |
-| 489 | `    {` | Abre ou fecha um bloco de codigo. |
-| 490 | `        do` | Sorteia uma posicao horizontal ou vertical ate achar espaco valido. |
-| 491 | `        {` | Sorteia uma posicao horizontal ou vertical ate achar espaco valido. |
-| 492 | `            linha = rand() % tamanho;` | Sorteia uma posicao horizontal ou vertical ate achar espaco valido. |
-| 493 | `            coluna = rand() % tamanho;` | Sorteia uma posicao horizontal ou vertical ate achar espaco valido. |
-| 494 | `            direcao = rand() % 2;` | Sorteia uma posicao horizontal ou vertical ate achar espaco valido. |
-| 495 | `            linha2 = linha;` | Sorteia uma posicao horizontal ou vertical ate achar espaco valido. |
-| 496 | `            coluna2 = coluna;` | Sorteia uma posicao horizontal ou vertical ate achar espaco valido. |
-| 497 | &nbsp; | Sorteia uma posicao horizontal ou vertical ate achar espaco valido. |
-| 498 | `            if (direcao == 0)` | Sorteia uma posicao horizontal ou vertical ate achar espaco valido. |
-| 499 | `            {` | Sorteia uma posicao horizontal ou vertical ate achar espaco valido. |
-| 500 | `                coluna2 = coluna + 1;` | Sorteia uma posicao horizontal ou vertical ate achar espaco valido. |
-| 501 | `            }` | Sorteia uma posicao horizontal ou vertical ate achar espaco valido. |
-| 502 | `            else` | Sorteia uma posicao horizontal ou vertical ate achar espaco valido. |
-| 503 | `            {` | Sorteia uma posicao horizontal ou vertical ate achar espaco valido. |
-| 504 | `                linha2 = linha + 1;` | Sorteia uma posicao horizontal ou vertical ate achar espaco valido. |
-| 505 | `            }` | Sorteia uma posicao horizontal ou vertical ate achar espaco valido. |
-| 506 | `        } while (linha2 &gt;= tamanho &#124;&#124; coluna2 &gt;= tamanho &#124;&#124;` | Sorteia uma posicao horizontal ou vertical ate achar espaco valido. |
-| 507 | `                 !posicaoLivre(jogador-&gt;campo, linha, coluna, linha2, coluna2));` | Sorteia uma posicao horizontal ou vertical ate achar espaco valido. |
+| 447 | `    tamanho = jogo-&gt;config.tamanho;` | Copia o tamanho da configuracao. |
+| 448 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 449 | `    fread(&amp;jogo-&gt;turno, sizeof(int), 1, arquivo);` | Le turno e estado da partida. |
+| 450 | `    fread(&amp;jogo-&gt;emAndamento, sizeof(int), 1, arquivo);` | Le turno e estado da partida. |
+| 451 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 452 | `    fread(&amp;jogo-&gt;humano.totalNavios, sizeof(int), 1, arquivo);` | Le dados do jogador humano e recria suas matrizes. |
+| 453 | `    fread(&amp;jogo-&gt;humano.naviosAfundados, sizeof(int), 1, arquivo);` | Le dados do jogador humano e recria suas matrizes. |
+| 454 | `    jogo-&gt;humano.navios = (Navio *)malloc(jogo-&gt;humano.totalNavios * sizeof(Navio));` | Le dados do jogador humano e recria suas matrizes. |
+| 455 | `    jogo-&gt;humano.campo = criarMatriz(tamanho);` | Le dados do jogador humano e recria suas matrizes. |
+| 456 | `    jogo-&gt;humano.visaoAdversario = criarMatriz(tamanho);` | Le dados do jogador humano e recria suas matrizes. |
+| 457 | `    fread(jogo-&gt;humano.navios, sizeof(Navio), jogo-&gt;humano.totalNavios, arquivo);` | Le dados do jogador humano e recria suas matrizes. |
+| 458 | `    lerMatriz(arquivo, jogo-&gt;humano.campo, tamanho);` | Le dados do jogador humano e recria suas matrizes. |
+| 459 | `    lerMatriz(arquivo, jogo-&gt;humano.visaoAdversario, tamanho);` | Le dados do jogador humano e recria suas matrizes. |
+| 460 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 461 | `    fread(&amp;jogo-&gt;computador.totalNavios, sizeof(int), 1, arquivo);` | Le dados do computador e recria suas matrizes. |
+| 462 | `    fread(&amp;jogo-&gt;computador.naviosAfundados, sizeof(int), 1, arquivo);` | Le dados do computador e recria suas matrizes. |
+| 463 | `    jogo-&gt;computador.navios = (Navio *)malloc(jogo-&gt;computador.totalNavios * sizeof(Navio));` | Le dados do computador e recria suas matrizes. |
+| 464 | `    jogo-&gt;computador.campo = criarMatriz(tamanho);` | Le dados do computador e recria suas matrizes. |
+| 465 | `    jogo-&gt;computador.visaoAdversario = criarMatriz(tamanho);` | Le dados do computador e recria suas matrizes. |
+| 466 | `    fread(jogo-&gt;computador.navios, sizeof(Navio), jogo-&gt;computador.totalNavios, arquivo);` | Le dados do computador e recria suas matrizes. |
+| 467 | `    lerMatriz(arquivo, jogo-&gt;computador.campo, tamanho);` | Le dados do computador e recria suas matrizes. |
+| 468 | `    lerMatriz(arquivo, jogo-&gt;computador.visaoAdversario, tamanho);` | Le dados do computador e recria suas matrizes. |
+| 469 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 470 | `    if (jogo-&gt;turno == 0)` | Verifica se o jogo salvo estava no turno do humano. |
+| 471 | `    {` | Abre ou fecha um bloco de codigo. |
+| 472 | `        jogo-&gt;bombardeiosHumanoFeitos = contarBombardeiosRealizados(jogo-&gt;humano.visaoAdversario, tamanho) % 3;` | Ao carregar no turno humano, recupera quantos disparos desse turno ja foram feitos. |
+| 473 | `    }` | Fecha um bloco de codigo. |
+| 474 | `    else` | Caso contrario, executa o outro bloco. |
+| 475 | `    {` | Abre ou fecha um bloco de codigo. |
+| 476 | `        jogo-&gt;bombardeiosHumanoFeitos = 0;` | Zera o contador de bombardeios do turno humano. |
+| 477 | `    }` | Fecha um bloco de codigo. |
+| 478 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 479 | `    fclose(arquivo);` | Executa uma instrucao do programa. |
+| 480 | `    return 1;` | Retorna um valor ou encerra a funcao. |
+| 481 | `}` | Fecha um bloco de codigo. |
+| 482 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 483 | `/* Verifica se duas posicoes estao livres para colocar um navio. */` | Comentario sobre verificar posicoes livres. |
+| 484 | `int posicaoLivre(int **campo, int linha1, int coluna1, int linha2, int coluna2)` | Inicio da funcao `posicaoLivre`. |
+| 485 | `{` | Abre um bloco de codigo. |
+| 486 | `    return campo[linha1][coluna1] == AGUA &amp;&amp; campo[linha2][coluna2] == AGUA;` | Retorna verdadeiro se as duas posicoes estiverem com agua. |
+| 487 | `}` | Fecha um bloco de codigo. |
+| 488 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 489 | `/* Sorteia todos os navios de um jogador sem deixar sobrepor. */` | Comentario sobre sortear navios. |
+| 490 | `void posicionarNavios(Jogador *jogador, int tamanho)` | Inicio da funcao `posicionarNavios`. |
+| 491 | `{` | Abre um bloco de codigo. |
+| 492 | `    int i;` | Cria um contador para laco. |
+| 493 | `    int linha;` | Cria variavel para guardar uma linha do campo. |
+| 494 | `    int coluna;` | Cria variavel para guardar uma coluna do campo. |
+| 495 | `    int direcao;` | Cria variaveis usadas para sortear posicoes e direcao. |
+| 496 | `    int linha2;` | Declara uma variavel inteira. |
+| 497 | `    int coluna2;` | Declara uma variavel inteira. |
+| 498 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 499 | `    for (i = 0; i &lt; jogador-&gt;totalNavios; i++)` | Comeca um laco para posicionar todos os navios. |
+| 500 | `    {` | Abre ou fecha um bloco de codigo. |
+| 501 | `        do` | Executa uma instrucao do programa. |
+| 502 | `        {` | Abre ou fecha um bloco de codigo. |
+| 503 | `            linha = rand() % tamanho;` | Sorteia uma posicao horizontal ou vertical ate achar espaco valido. |
+| 504 | `            coluna = rand() % tamanho;` | Sorteia uma posicao horizontal ou vertical ate achar espaco valido. |
+| 505 | `            direcao = rand() % 2;` | Sorteia uma posicao horizontal ou vertical ate achar espaco valido. |
+| 506 | `            linha2 = linha;` | Sorteia uma posicao horizontal ou vertical ate achar espaco valido. |
+| 507 | `            coluna2 = coluna;` | Sorteia uma posicao horizontal ou vertical ate achar espaco valido. |
 | 508 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 509 | `        jogador-&gt;navios[i].linha1 = linha;` | Guarda as coordenadas e zera os acertos do navio. |
-| 510 | `        jogador-&gt;navios[i].coluna1 = coluna;` | Guarda as coordenadas e zera os acertos do navio. |
-| 511 | `        jogador-&gt;navios[i].linha2 = linha2;` | Guarda as coordenadas e zera os acertos do navio. |
-| 512 | `        jogador-&gt;navios[i].coluna2 = coluna2;` | Guarda as coordenadas e zera os acertos do navio. |
-| 513 | `        jogador-&gt;navios[i].acertos = 0;` | Guarda as coordenadas e zera os acertos do navio. |
-| 514 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 515 | `        jogador-&gt;campo[linha][coluna] = NAVIO_BASE + i;` | Marca as duas partes do navio no campo. |
-| 516 | `        jogador-&gt;campo[linha2][coluna2] = NAVIO_BASE + i;` | Marca as duas partes do navio no campo. |
-| 517 | `    }` | Fecha o laco dos navios. |
-| 518 | `}` | Fecha a funcao. |
+| 509 | `            if (direcao == 0)` | Sorteia uma posicao horizontal ou vertical ate achar espaco valido. |
+| 510 | `            {` | Abre ou fecha um bloco de codigo. |
+| 511 | `                coluna2 = coluna + 1;` | Sorteia uma posicao horizontal ou vertical ate achar espaco valido. |
+| 512 | `            }` | Fecha um bloco de codigo. |
+| 513 | `            else` | Caso contrario, executa o outro bloco. |
+| 514 | `            {` | Abre ou fecha um bloco de codigo. |
+| 515 | `                linha2 = linha + 1;` | Sorteia uma posicao horizontal ou vertical ate achar espaco valido. |
+| 516 | `            }` | Fecha um bloco de codigo. |
+| 517 | `        } while (linha2 &gt;= tamanho &#124;&#124; coluna2 &gt;= tamanho &#124;&#124;` | Sorteia uma posicao horizontal ou vertical ate achar espaco valido. |
+| 518 | `                 !posicaoLivre(jogador-&gt;campo, linha, coluna, linha2, coluna2));` | Sorteia uma posicao horizontal ou vertical ate achar espaco valido. |
 | 519 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 520 | `/* Aloca e prepara as estruturas de um jogador. */` | Comentario sobre inicializar jogador. |
-| 521 | `void inicializarJogador(Jogador *jogador, int tamanho, int totalNavios)` | Inicio da funcao `inicializarJogador`. |
-| 522 | `{` | Abre ou fecha um bloco de codigo. |
-| 523 | `    jogador-&gt;campo = criarMatriz(tamanho);` | Cria a matriz do campo do jogador. |
-| 524 | `    jogador-&gt;visaoAdversario = criarMatriz(tamanho);` | Cria a matriz da visao do adversario. |
-| 525 | `    jogador-&gt;navios = (Navio *)malloc(totalNavios * sizeof(Navio));` | Aloca o vetor de navios. |
-| 526 | `    jogador-&gt;totalNavios = totalNavios;` | Guarda a quantidade total de navios. |
-| 527 | `    jogador-&gt;naviosAfundados = 0;` | Zera a quantidade de navios afundados. |
-| 528 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 529 | `    preencherMatriz(jogador-&gt;campo, tamanho, AGUA);` | Preenche o campo com agua. |
-| 530 | `    preencherMatriz(jogador-&gt;visaoAdversario, tamanho, DESCONHECIDO);` | Preenche a visao do adversario com posicoes desconhecidas. |
-| 531 | `    posicionarNavios(jogador, tamanho);` | Sorteia e posiciona os navios. |
-| 532 | `}` | Fecha a funcao. |
-| 533 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 534 | `/* Libera a memoria usada por um jogador. */` | Comentario sobre liberar memoria do jogador. |
-| 535 | `void liberarJogador(Jogador *jogador, int tamanho)` | Inicio da funcao `liberarJogador`. |
-| 536 | `{` | Abre ou fecha um bloco de codigo. |
-| 537 | `    liberarMatriz(jogador-&gt;campo, tamanho);` | Libera a matriz do campo. |
-| 538 | `    liberarMatriz(jogador-&gt;visaoAdversario, tamanho);` | Libera a matriz da visao do adversario. |
-| 539 | `    free(jogador-&gt;navios);` | Libera o vetor de navios. |
-| 540 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 541 | `    jogador-&gt;campo = NULL;` | Coloca os ponteiros como `NULL` para evitar uso indevido. |
-| 542 | `    jogador-&gt;visaoAdversario = NULL;` | Coloca os ponteiros como `NULL` para evitar uso indevido. |
-| 543 | `    jogador-&gt;navios = NULL;` | Coloca os ponteiros como `NULL` para evitar uso indevido. |
-| 544 | `}` | Fecha a funcao. |
-| 545 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 546 | `/* Cria uma nova partida. */` | Comentario sobre criar nova partida. |
-| 547 | `void inicializarJogo(Jogo *jogo, Configuracao config)` | Inicio da funcao `inicializarJogo`. |
-| 548 | `{` | Abre ou fecha um bloco de codigo. |
-| 549 | `    jogo-&gt;config = config;` | Copia a configuracao para o jogo. |
-| 550 | `    jogo-&gt;turno = 0;` | Define que o humano comeca. |
-| 551 | `    jogo-&gt;emAndamento = 1;` | Marca o jogo como em andamento. |
-| 552 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 553 | `    inicializarJogador(&amp;jogo-&gt;humano, config.tamanho, config.quantidadeNavios);` | Inicializa o jogador humano. |
-| 554 | `    inicializarJogador(&amp;jogo-&gt;computador, config.tamanho, config.quantidadeNavios);` | Inicializa o computador. |
-| 555 | `}` | Fecha a funcao. |
+| 520 | `        jogador-&gt;navios[i].linha1 = linha;` | Guarda as coordenadas e zera os acertos do navio. |
+| 521 | `        jogador-&gt;navios[i].coluna1 = coluna;` | Guarda as coordenadas e zera os acertos do navio. |
+| 522 | `        jogador-&gt;navios[i].linha2 = linha2;` | Guarda as coordenadas e zera os acertos do navio. |
+| 523 | `        jogador-&gt;navios[i].coluna2 = coluna2;` | Guarda as coordenadas e zera os acertos do navio. |
+| 524 | `        jogador-&gt;navios[i].acertos = 0;` | Guarda as coordenadas e zera os acertos do navio. |
+| 525 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 526 | `        jogador-&gt;campo[linha][coluna] = NAVIO_BASE + i;` | Marca as duas partes do navio no campo. |
+| 527 | `        jogador-&gt;campo[linha2][coluna2] = NAVIO_BASE + i;` | Marca as duas partes do navio no campo. |
+| 528 | `    }` | Fecha um bloco de codigo. |
+| 529 | `}` | Fecha um bloco de codigo. |
+| 530 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 531 | `/* Aloca e prepara as estruturas de um jogador. */` | Comentario sobre inicializar jogador. |
+| 532 | `void inicializarJogador(Jogador *jogador, int tamanho, int totalNavios)` | Inicio da funcao `inicializarJogador`. |
+| 533 | `{` | Abre um bloco de codigo. |
+| 534 | `    jogador-&gt;campo = criarMatriz(tamanho);` | Cria a matriz do campo do jogador. |
+| 535 | `    jogador-&gt;visaoAdversario = criarMatriz(tamanho);` | Cria a matriz da visao do adversario. |
+| 536 | `    jogador-&gt;navios = (Navio *)malloc(totalNavios * sizeof(Navio));` | Aloca o vetor de navios. |
+| 537 | `    jogador-&gt;totalNavios = totalNavios;` | Guarda a quantidade total de navios. |
+| 538 | `    jogador-&gt;naviosAfundados = 0;` | Zera a quantidade de navios afundados. |
+| 539 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 540 | `    preencherMatriz(jogador-&gt;campo, tamanho, AGUA);` | Preenche o campo com agua. |
+| 541 | `    preencherMatriz(jogador-&gt;visaoAdversario, tamanho, DESCONHECIDO);` | Preenche a visao do adversario com posicoes desconhecidas. |
+| 542 | `    posicionarNavios(jogador, tamanho);` | Sorteia e posiciona os navios. |
+| 543 | `}` | Fecha um bloco de codigo. |
+| 544 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 545 | `/* Libera a memoria usada por um jogador. */` | Comentario sobre liberar memoria do jogador. |
+| 546 | `void liberarJogador(Jogador *jogador, int tamanho)` | Inicio da funcao `liberarJogador`. |
+| 547 | `{` | Abre um bloco de codigo. |
+| 548 | `    liberarMatriz(jogador-&gt;campo, tamanho);` | Libera a matriz do campo. |
+| 549 | `    liberarMatriz(jogador-&gt;visaoAdversario, tamanho);` | Libera a matriz da visao do adversario. |
+| 550 | `    free(jogador-&gt;navios);` | Libera o vetor de navios. |
+| 551 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 552 | `    jogador-&gt;campo = NULL;` | Coloca os ponteiros como `NULL` para evitar uso indevido. |
+| 553 | `    jogador-&gt;visaoAdversario = NULL;` | Coloca os ponteiros como `NULL` para evitar uso indevido. |
+| 554 | `    jogador-&gt;navios = NULL;` | Coloca os ponteiros como `NULL` para evitar uso indevido. |
+| 555 | `}` | Fecha um bloco de codigo. |
 | 556 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 557 | `/* Libera a memoria usada pela partida. */` | Comentario sobre liberar memoria do jogo. |
-| 558 | `void liberarJogo(Jogo *jogo)` | Inicio da funcao `liberarJogo`. |
-| 559 | `{` | Abre ou fecha um bloco de codigo. |
-| 560 | `    int tamanho = jogo-&gt;config.tamanho;` | Guarda o tamanho do campo. |
-| 561 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 562 | `    liberarJogador(&amp;jogo-&gt;humano, tamanho);` | Libera os dados do humano. |
-| 563 | `    liberarJogador(&amp;jogo-&gt;computador, tamanho);` | Libera os dados do computador. |
-| 564 | `}` | Fecha a funcao. |
-| 565 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 566 | `/* Funcao recursiva: conta navios que ainda nao foram afundados. */` | Comentario indicando que a funcao usa recursao. |
-| 567 | `int contarNaviosRestantes(Navio *navios, int total, int indice)` | Inicio da funcao `contarNaviosRestantes`. |
-| 568 | `{` | Abre ou fecha um bloco de codigo. |
-| 569 | `    if (indice == total)` | Caso base: se chegou ao final do vetor, retorna zero. |
-| 570 | `    {` | Caso base: se chegou ao final do vetor, retorna zero. |
-| 571 | `        return 0;` | Caso base: se chegou ao final do vetor, retorna zero. |
-| 572 | `    }` | Caso base: se chegou ao final do vetor, retorna zero. |
+| 557 | `/* Cria uma nova partida. */` | Comentario sobre criar nova partida. |
+| 558 | `void inicializarJogo(Jogo *jogo, Configuracao config)` | Inicio da funcao `inicializarJogo`. |
+| 559 | `{` | Abre um bloco de codigo. |
+| 560 | `    jogo-&gt;config = config;` | Copia a configuracao para o jogo. |
+| 561 | `    jogo-&gt;turno = 0;` | Atualiza ou calcula um valor usado pelo programa. |
+| 562 | `    jogo-&gt;emAndamento = 1;` | Marca o jogo como em andamento. |
+| 563 | `    jogo-&gt;bombardeiosHumanoFeitos = 0;` | Zera o contador de bombardeios do turno humano. |
+| 564 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 565 | `    inicializarJogador(&amp;jogo-&gt;humano, config.tamanho, config.quantidadeNavios);` | Inicializa o jogador humano. |
+| 566 | `    inicializarJogador(&amp;jogo-&gt;computador, config.tamanho, config.quantidadeNavios);` | Inicializa o computador. |
+| 567 | `}` | Fecha um bloco de codigo. |
+| 568 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 569 | `/* Libera a memoria usada pela partida. */` | Comentario sobre liberar memoria do jogo. |
+| 570 | `void liberarJogo(Jogo *jogo)` | Inicio da funcao `liberarJogo`. |
+| 571 | `{` | Abre um bloco de codigo. |
+| 572 | `    int tamanho = jogo-&gt;config.tamanho;` | Declara uma variavel inteira. |
 | 573 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 574 | `    if (navios[indice].acertos &lt; 2)` | Se o navio atual ainda nao afundou, conta ele e chama a funcao de novo. |
-| 575 | `    {` | Se o navio atual ainda nao afundou, conta ele e chama a funcao de novo. |
-| 576 | `        return 1 + contarNaviosRestantes(navios, total, indice + 1);` | Se o navio atual ainda nao afundou, conta ele e chama a funcao de novo. |
-| 577 | `    }` | Se o navio atual ainda nao afundou, conta ele e chama a funcao de novo. |
-| 578 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 579 | `    return contarNaviosRestantes(navios, total, indice + 1);` | Se o navio ja afundou, apenas continua a contagem. |
-| 580 | `}` | Fecha a funcao. |
-| 581 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 582 | `/* Mostra o significado dos numeros do tabuleiro. */` | Comentario sobre mostrar legenda. |
-| 583 | `void mostrarLegenda(void)` | Inicio da funcao `mostrarLegenda`. |
-| 584 | `{` | Abre ou fecha um bloco de codigo. |
-| 585 | `    printf("\n===== LEGENDA =====\n");` | Imprime o significado de cada numero usado no tabuleiro. |
-| 586 | `    printf("0 = Agua no seu campo\n");` | Imprime o significado de cada numero usado no tabuleiro. |
-| 587 | `    printf("1 = Seu navio\n");` | Imprime o significado de cada numero usado no tabuleiro. |
-| 588 | `    printf("2 = Parte do seu navio acertada\n");` | Imprime o significado de cada numero usado no tabuleiro. |
-| 589 | `    printf("3 = Agua encontrada no campo adversario\n");` | Imprime o significado de cada numero usado no tabuleiro. |
-| 590 | `    printf("4 = Impacto em navio adversario\n");` | Imprime o significado de cada numero usado no tabuleiro. |
-| 591 | `    printf("5 = Navio adversario afundado\n");` | Imprime o significado de cada numero usado no tabuleiro. |
-| 592 | `    printf("7 = Posicao desconhecida no campo adversario\n");` | Imprime o significado de cada numero usado no tabuleiro. |
-| 593 | `}` | Fecha a funcao. |
-| 594 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 595 | `/* Limpa a tela usando sequencia ANSI, sem depender do comando clear/cls. */` | Comentario sobre limpar a tela. |
-| 596 | `void limparTela(void)` | Inicio da funcao `limparTela`. |
-| 597 | `{` | Abre ou fecha um bloco de codigo. |
-| 598 | `    printf("\033[2J\033[H");` | Imprime codigos ANSI para limpar a tela e voltar ao topo. |
-| 599 | `    fflush(stdout);` | Forca a saida aparecer imediatamente. |
-| 600 | `}` | Fecha a funcao. |
-| 601 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 602 | `/* Mostra o campo do jogador e o campo conhecido do computador. */` | Comentario sobre mostrar os campos. |
-| 603 | `void mostrarCampos(Jogo *jogo)` | Inicio da funcao `mostrarCampos`. |
-| 604 | `{` | Abre ou fecha um bloco de codigo. |
-| 605 | `    int restantesHumano;` | Cria variaveis para contadores, largura e textos. |
-| 606 | `    int restantesComputador;` | Cria variaveis para contadores, largura e textos. |
-| 607 | `    int larguraCampo = 5 + jogo-&gt;config.tamanho * 3;` | Cria variaveis para contadores, largura e textos. |
-| 608 | `    char textoHumano[80];` | Cria variaveis para contadores, largura e textos. |
-| 609 | `    char textoComputador[80];` | Cria variaveis para contadores, largura e textos. |
-| 610 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 611 | `    restantesHumano = contarNaviosRestantes(jogo-&gt;humano.navios, jogo-&gt;humano.totalNavios, 0);` | Conta os navios restantes do humano. |
-| 612 | `    restantesComputador = contarNaviosRestantes(jogo-&gt;computador.navios, jogo-&gt;computador.totalNavios, 0);` | Conta os navios restantes do computador. |
-| 613 | `    sprintf(textoHumano, "Seus navios restantes: %d", restantesHumano);` | Monta o texto de navios restantes do humano. |
-| 614 | `    sprintf(textoComputador, "Navios restantes do computador: %d", restantesComputador);` | Monta o texto de navios restantes do computador. |
-| 615 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 616 | `    printf("\n%-*s &#124; %s\n", larguraCampo, "===== SEU CAMPO =====",` | Imprime os titulos dos dois campos. |
-| 617 | `           "===== CAMPO DO COMPUTADOR CONHECIDO =====");` | Imprime os titulos dos dois campos. |
-| 618 | `    printf("%-*s &#124; %s\n", larguraCampo, textoHumano, textoComputador);` | Imprime os titulos dos dois campos. |
-| 619 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 620 | `    imprimirCamposLadoALado(jogo-&gt;humano.campo,` | Imprime os campos lado a lado. |
-| 621 | `                            jogo-&gt;humano.visaoAdversario,` | Imprime os campos lado a lado. |
-| 622 | `                            jogo-&gt;config.tamanho);` | Imprime os campos lado a lado. |
-| 623 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 624 | `    mostrarLegenda();` | Mostra a legenda. |
-| 625 | `    printf("\n");` | Pula uma linha. |
-| 626 | `}` | Fecha a funcao. |
+| 574 | `    liberarJogador(&amp;jogo-&gt;humano, tamanho);` | Libera os dados do humano. |
+| 575 | `    liberarJogador(&amp;jogo-&gt;computador, tamanho);` | Libera os dados do computador. |
+| 576 | `}` | Fecha um bloco de codigo. |
+| 577 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 578 | `/* Funcao recursiva: conta navios que ainda nao foram afundados. */` | Comentario indicando que a funcao usa recursao. |
+| 579 | `int contarNaviosRestantes(Navio *navios, int total, int indice)` | Inicio da funcao `contarNaviosRestantes`. |
+| 580 | `{` | Abre um bloco de codigo. |
+| 581 | `    if (indice == total)` | Caso base: se chegou ao final do vetor, retorna zero. |
+| 582 | `    {` | Abre ou fecha um bloco de codigo. |
+| 583 | `        return 0;` | Retorna um valor ou encerra a funcao. |
+| 584 | `    }` | Fecha um bloco de codigo. |
+| 585 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 586 | `    if (navios[indice].acertos &lt; 2)` | Se o navio atual ainda nao afundou, conta ele e chama a funcao de novo. |
+| 587 | `    {` | Abre ou fecha um bloco de codigo. |
+| 588 | `        return 1 + contarNaviosRestantes(navios, total, indice + 1);` | Se o navio atual ainda nao afundou, conta ele e chama a funcao de novo. |
+| 589 | `    }` | Fecha um bloco de codigo. |
+| 590 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 591 | `    return contarNaviosRestantes(navios, total, indice + 1);` | Se o navio ja afundou, apenas continua a contagem. |
+| 592 | `}` | Fecha um bloco de codigo. |
+| 593 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 594 | `/* Conta quantas posicoes o jogador ja bombardeou no campo adversario. */` | Comentario sobre contar bombardeios ja realizados. |
+| 595 | `int contarBombardeiosRealizados(int **visaoAdversario, int tamanho)` | Inicio da funcao `contarBombardeiosRealizados`. |
+| 596 | `{` | Abre um bloco de codigo. |
+| 597 | `    int i;` | Cria um contador para laco. |
+| 598 | `    int j;` | Cria um contador para laco. |
+| 599 | `    int total = 0;` | Cria o contador total e comeca em zero. |
+| 600 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 601 | `    for (i = 0; i &lt; tamanho; i++)` | Percorre todas as linhas do campo. |
+| 602 | `    {` | Abre ou fecha um bloco de codigo. |
+| 603 | `        for (j = 0; j &lt; tamanho; j++)` | Percorre todas as colunas da linha atual. |
+| 604 | `        {` | Abre ou fecha um bloco de codigo. |
+| 605 | `            if (visaoAdversario[i][j] != DESCONHECIDO)` | Verifica se aquela posicao ja deixou de ser desconhecida. |
+| 606 | `            {` | Abre ou fecha um bloco de codigo. |
+| 607 | `                total++;` | Soma uma posicao ja bombardeada. |
+| 608 | `            }` | Fecha um bloco de codigo. |
+| 609 | `        }` | Fecha um bloco de codigo. |
+| 610 | `    }` | Fecha um bloco de codigo. |
+| 611 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 612 | `    return total;` | Retorna o total encontrado. |
+| 613 | `}` | Fecha um bloco de codigo. |
+| 614 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 615 | `/* Mostra o significado dos numeros do tabuleiro. */` | Comentario sobre mostrar legenda. |
+| 616 | `void mostrarLegenda(void)` | Inicio da funcao `mostrarLegenda`. |
+| 617 | `{` | Abre um bloco de codigo. |
+| 618 | `    printf("\n===== LEGENDA =====\n");` | Imprime o significado de cada numero usado no tabuleiro. |
+| 619 | `    printf("0 = Agua no seu campo\n");` | Imprime o significado de cada numero usado no tabuleiro. |
+| 620 | `    printf("1 = Seu navio\n");` | Imprime o significado de cada numero usado no tabuleiro. |
+| 621 | `    printf("2 = Parte do seu navio acertada\n");` | Imprime o significado de cada numero usado no tabuleiro. |
+| 622 | `    printf("3 = Agua encontrada no campo adversario\n");` | Imprime o significado de cada numero usado no tabuleiro. |
+| 623 | `    printf("4 = Impacto em navio adversario\n");` | Imprime o significado de cada numero usado no tabuleiro. |
+| 624 | `    printf("5 = Navio adversario afundado\n");` | Imprime o significado de cada numero usado no tabuleiro. |
+| 625 | `    printf("7 = Posicao desconhecida no campo adversario\n");` | Imprime o significado de cada numero usado no tabuleiro. |
+| 626 | `}` | Fecha um bloco de codigo. |
 | 627 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 628 | `/* Procura o indice do navio que esta em uma posicao. */` | Comentario sobre procurar navio por posicao. |
-| 629 | `int indiceNavioPorPosicao(Navio *navios, int total, int linha, int coluna)` | Inicio da funcao `indiceNavioPorPosicao`. |
-| 630 | `{` | Abre ou fecha um bloco de codigo. |
-| 631 | `    int i;` | Cria o contador do laco. |
-| 632 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 633 | `    for (i = 0; i &lt; total; i++)` | Procura qual navio ocupa a linha e coluna informadas. |
-| 634 | `    {` | Procura qual navio ocupa a linha e coluna informadas. |
-| 635 | `        if ((navios[i].linha1 == linha &amp;&amp; navios[i].coluna1 == coluna) &#124;&#124;` | Procura qual navio ocupa a linha e coluna informadas. |
-| 636 | `            (navios[i].linha2 == linha &amp;&amp; navios[i].coluna2 == coluna))` | Procura qual navio ocupa a linha e coluna informadas. |
-| 637 | `        {` | Procura qual navio ocupa a linha e coluna informadas. |
-| 638 | `            return i;` | Procura qual navio ocupa a linha e coluna informadas. |
-| 639 | `        }` | Procura qual navio ocupa a linha e coluna informadas. |
-| 640 | `    }` | Procura qual navio ocupa a linha e coluna informadas. |
-| 641 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 642 | `    return -1;` | Retorna `-1` se nenhum navio for encontrado. |
-| 643 | `}` | Fecha a funcao. |
-| 644 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 645 | `/* Marca as duas partes de um navio afundado. */` | Comentario sobre marcar navio afundado. |
-| 646 | `void marcarNavioAfundado(int **visao, Navio navio)` | Inicio da funcao `marcarNavioAfundado`. |
-| 647 | `{` | Abre ou fecha um bloco de codigo. |
-| 648 | `    visao[navio.linha1][navio.coluna1] = MARCA_AFUNDOU;` | Marca a primeira parte do navio como afundada. |
-| 649 | `    visao[navio.linha2][navio.coluna2] = MARCA_AFUNDOU;` | Marca a segunda parte do navio como afundada. |
-| 650 | `}` | Fecha a funcao. |
-| 651 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 652 | `/* Faz um bombardeio e devolve Agua, Impacto ou Afundou. */` | Comentario sobre executar um bombardeio. |
-| 653 | `int bombardear(Jogador *atacante, Jogador *defensor, int linha, int coluna)` | Inicio da funcao `bombardear`. |
-| 654 | `{` | Abre ou fecha um bloco de codigo. |
-| 655 | `    int indice;` | Cria variavel para guardar o indice do navio atingido. |
-| 656 | `    int valor = defensor-&gt;campo[linha][coluna];` | Pega o valor da posicao atacada no campo do defensor. |
-| 657 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 658 | `    if (valor == AGUA)` | Se acertou agua, marca agua na visao do atacante e retorna esse resultado. |
-| 659 | `    {` | Se acertou agua, marca agua na visao do atacante e retorna esse resultado. |
-| 660 | `        atacante-&gt;visaoAdversario[linha][coluna] = MARCA_AGUA;` | Se acertou agua, marca agua na visao do atacante e retorna esse resultado. |
-| 661 | `        return MARCA_AGUA;` | Se acertou agua, marca agua na visao do atacante e retorna esse resultado. |
-| 662 | `    }` | Se acertou agua, marca agua na visao do atacante e retorna esse resultado. |
-| 663 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 664 | `    if (valor &gt;= NAVIO_BASE)` | Verifica se a posicao contem navio. |
-| 665 | `    {` | Abre ou fecha um bloco de codigo. |
-| 666 | `        indice = indiceNavioPorPosicao(defensor-&gt;navios, defensor-&gt;totalNavios, linha, coluna);` | Descobre qual navio foi atingido. |
-| 667 | `        defensor-&gt;campo[linha][coluna] = NAVIO_ACERTADO;` | Marca a posicao como parte de navio acertada. |
-| 668 | `        defensor-&gt;navios[indice].acertos++;` | Soma um acerto ao navio atingido. |
-| 669 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 670 | `        if (defensor-&gt;navios[indice].acertos == 2)` | Se o navio recebeu dois acertos, marca como afundado e retorna `5`. |
-| 671 | `        {` | Se o navio recebeu dois acertos, marca como afundado e retorna `5`. |
-| 672 | `            defensor-&gt;naviosAfundados++;` | Se o navio recebeu dois acertos, marca como afundado e retorna `5`. |
-| 673 | `            marcarNavioAfundado(atacante-&gt;visaoAdversario, defensor-&gt;navios[indice]);` | Se o navio recebeu dois acertos, marca como afundado e retorna `5`. |
-| 674 | `            return MARCA_AFUNDOU;` | Se o navio recebeu dois acertos, marca como afundado e retorna `5`. |
-| 675 | `        }` | Se o navio recebeu dois acertos, marca como afundado e retorna `5`. |
-| 676 | `        else` | Se ainda nao afundou, marca impacto e retorna `4`. |
-| 677 | `        {` | Se ainda nao afundou, marca impacto e retorna `4`. |
-| 678 | `            atacante-&gt;visaoAdversario[linha][coluna] = MARCA_IMPACTO;` | Se ainda nao afundou, marca impacto e retorna `4`. |
-| 679 | `            return MARCA_IMPACTO;` | Se ainda nao afundou, marca impacto e retorna `4`. |
-| 680 | `        }` | Se ainda nao afundou, marca impacto e retorna `4`. |
-| 681 | `    }` | Abre ou fecha um bloco de codigo. |
-| 682 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 683 | `    return MARCA_AGUA;` | Retorna agua para qualquer outro caso. |
-| 684 | `}` | Fecha a funcao. |
-| 685 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 686 | `/* Mostra o texto do resultado de um bombardeio. */` | Comentario sobre mostrar resultado do bombardeio. |
-| 687 | `void mostrarResultadoBombardeio(int resultado)` | Inicio da funcao `mostrarResultadoBombardeio`. |
-| 688 | `{` | Abre ou fecha um bloco de codigo. |
-| 689 | `    if (resultado == MARCA_AGUA)` | Se o resultado foi agua, imprime `Agua!`. |
-| 690 | `    {` | Se o resultado foi agua, imprime `Agua!`. |
-| 691 | `        printf("Agua!\n");` | Se o resultado foi agua, imprime `Agua!`. |
-| 692 | `    }` | Se o resultado foi agua, imprime `Agua!`. |
-| 693 | `    else if (resultado == MARCA_IMPACTO)` | Se foi impacto, imprime `Impacto!`. |
-| 694 | `    {` | Se foi impacto, imprime `Impacto!`. |
-| 695 | `        printf("Impacto!\n");` | Se foi impacto, imprime `Impacto!`. |
-| 696 | `    }` | Se foi impacto, imprime `Impacto!`. |
-| 697 | `    else` | Caso contrario, imprime `Afundou!`. |
-| 698 | `    {` | Caso contrario, imprime `Afundou!`. |
-| 699 | `        printf("Afundou!\n");` | Caso contrario, imprime `Afundou!`. |
-| 700 | `    }` | Caso contrario, imprime `Afundou!`. |
-| 701 | `}` | Fecha a funcao. |
+| 628 | `/* Limpa a tela usando sequencia ANSI, sem depender do comando clear/cls. */` | Comentario sobre limpar a tela. |
+| 629 | `void limparTela(void)` | Inicio da funcao `limparTela`. |
+| 630 | `{` | Abre um bloco de codigo. |
+| 631 | `    printf("\033[2J\033[H");` | Imprime codigos ANSI para limpar a tela e voltar ao topo. |
+| 632 | `    fflush(stdout);` | Forca a saida aparecer imediatamente. |
+| 633 | `}` | Fecha um bloco de codigo. |
+| 634 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 635 | `/* Mostra o campo do jogador e o campo conhecido do computador. */` | Comentario sobre mostrar os campos. |
+| 636 | `void mostrarCampos(Jogo *jogo)` | Inicio da funcao `mostrarCampos`. |
+| 637 | `{` | Abre um bloco de codigo. |
+| 638 | `    int restantesHumano;` | Cria variaveis para contadores, largura e textos. |
+| 639 | `    int restantesComputador;` | Cria variaveis para contadores, largura e textos. |
+| 640 | `    int larguraCampo = 5 + jogo-&gt;config.tamanho * 3;` | Cria variaveis para contadores, largura e textos. |
+| 641 | `    char textoHumano[80];` | Cria variaveis para contadores, largura e textos. |
+| 642 | `    char textoComputador[80];` | Cria variaveis para contadores, largura e textos. |
+| 643 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 644 | `    restantesHumano = contarNaviosRestantes(jogo-&gt;humano.navios, jogo-&gt;humano.totalNavios, 0);` | Conta os navios restantes do humano. |
+| 645 | `    restantesComputador = contarNaviosRestantes(jogo-&gt;computador.navios, jogo-&gt;computador.totalNavios, 0);` | Conta os navios restantes do computador. |
+| 646 | `    sprintf(textoHumano, "Seus navios restantes: %d", restantesHumano);` | Monta o texto de navios restantes do humano. |
+| 647 | `    sprintf(textoComputador, "Navios restantes do computador: %d", restantesComputador);` | Monta o texto de navios restantes do computador. |
+| 648 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 649 | `    printf("\n%-*s &#124; %s\n", larguraCampo, "===== SEU CAMPO =====",` | Imprime os titulos dos dois campos. |
+| 650 | `           "===== CAMPO DO COMPUTADOR CONHECIDO =====");` | Imprime os titulos dos dois campos. |
+| 651 | `    printf("%-*s &#124; %s\n", larguraCampo, textoHumano, textoComputador);` | Imprime os titulos dos dois campos. |
+| 652 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 653 | `    imprimirCamposLadoALado(jogo-&gt;humano.campo,` | Imprime os campos lado a lado. |
+| 654 | `                            jogo-&gt;humano.visaoAdversario,` | Imprime os campos lado a lado. |
+| 655 | `                            jogo-&gt;config.tamanho);` | Imprime os campos lado a lado. |
+| 656 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 657 | `    mostrarLegenda();` | Mostra a legenda. |
+| 658 | `    printf("\n");` | Mostra uma mensagem na tela. |
+| 659 | `}` | Fecha um bloco de codigo. |
+| 660 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 661 | `/* Procura o indice do navio que esta em uma posicao. */` | Comentario sobre procurar navio por posicao. |
+| 662 | `int indiceNavioPorPosicao(Navio *navios, int total, int linha, int coluna)` | Inicio da funcao `indiceNavioPorPosicao`. |
+| 663 | `{` | Abre um bloco de codigo. |
+| 664 | `    int i;` | Cria um contador para laco. |
+| 665 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 666 | `    for (i = 0; i &lt; total; i++)` | Procura qual navio ocupa a linha e coluna informadas. |
+| 667 | `    {` | Abre ou fecha um bloco de codigo. |
+| 668 | `        if ((navios[i].linha1 == linha &amp;&amp; navios[i].coluna1 == coluna) &#124;&#124;` | Procura qual navio ocupa a linha e coluna informadas. |
+| 669 | `            (navios[i].linha2 == linha &amp;&amp; navios[i].coluna2 == coluna))` | Procura qual navio ocupa a linha e coluna informadas. |
+| 670 | `        {` | Abre ou fecha um bloco de codigo. |
+| 671 | `            return i;` | Procura qual navio ocupa a linha e coluna informadas. |
+| 672 | `        }` | Fecha um bloco de codigo. |
+| 673 | `    }` | Fecha um bloco de codigo. |
+| 674 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 675 | `    return -1;` | Retorna `-1` se nenhum navio for encontrado. |
+| 676 | `}` | Fecha um bloco de codigo. |
+| 677 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 678 | `/* Marca as duas partes de um navio afundado. */` | Comentario sobre marcar navio afundado. |
+| 679 | `void marcarNavioAfundado(int **visao, Navio navio)` | Inicio da funcao `marcarNavioAfundado`. |
+| 680 | `{` | Abre um bloco de codigo. |
+| 681 | `    visao[navio.linha1][navio.coluna1] = MARCA_AFUNDOU;` | Marca a primeira parte do navio como afundada. |
+| 682 | `    visao[navio.linha2][navio.coluna2] = MARCA_AFUNDOU;` | Marca a segunda parte do navio como afundada. |
+| 683 | `}` | Fecha um bloco de codigo. |
+| 684 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 685 | `/* Faz um bombardeio e devolve Agua, Impacto ou Afundou. */` | Comentario sobre executar um bombardeio. |
+| 686 | `int bombardear(Jogador *atacante, Jogador *defensor, int linha, int coluna)` | Inicio da funcao `bombardear`. |
+| 687 | `{` | Abre um bloco de codigo. |
+| 688 | `    int indice;` | Cria variavel para guardar o indice do navio atingido. |
+| 689 | `    int valor = defensor-&gt;campo[linha][coluna];` | Pega o valor da posicao atacada no campo do defensor. |
+| 690 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 691 | `    if (valor == AGUA)` | Verifica uma condicao para decidir o que fazer. |
+| 692 | `    {` | Abre ou fecha um bloco de codigo. |
+| 693 | `        atacante-&gt;visaoAdversario[linha][coluna] = MARCA_AGUA;` | Se acertou agua, marca agua na visao do atacante e retorna esse resultado. |
+| 694 | `        return MARCA_AGUA;` | Se acertou agua, marca agua na visao do atacante e retorna esse resultado. |
+| 695 | `    }` | Fecha um bloco de codigo. |
+| 696 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 697 | `    if (valor &gt;= NAVIO_BASE)` | Verifica uma condicao para decidir o que fazer. |
+| 698 | `    {` | Abre ou fecha um bloco de codigo. |
+| 699 | `        indice = indiceNavioPorPosicao(defensor-&gt;navios, defensor-&gt;totalNavios, linha, coluna);` | Descobre qual navio foi atingido. |
+| 700 | `        defensor-&gt;campo[linha][coluna] = NAVIO_ACERTADO;` | Marca a posicao como parte de navio acertada. |
+| 701 | `        defensor-&gt;navios[indice].acertos++;` | Soma um acerto ao navio atingido. |
 | 702 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 703 | `/* Verifica se o jogador ja bombardeou uma posicao. */` | Comentario sobre verificar posicao ja bombardeada. |
-| 704 | `int posicaoJaBombardeada(Jogador *atacante, int linha, int coluna)` | Inicio da funcao `posicaoJaBombardeada`. |
-| 705 | `{` | Abre ou fecha um bloco de codigo. |
-| 706 | `    return atacante-&gt;visaoAdversario[linha][coluna] != DESCONHECIDO;` | Retorna verdadeiro se a posicao nao esta mais desconhecida. |
-| 707 | `}` | Fecha a funcao. |
-| 708 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 709 | `/* Executa os tres bombardeios do jogador humano. */` | Comentario sobre os tres bombardeios do humano. |
-| 710 | `int turnoHumano(Jogo *jogo)` | Inicio da funcao `turnoHumano`. |
-| 711 | `{` | Abre ou fecha um bloco de codigo. |
-| 712 | `    int i;` | Cria variaveis para laco, coordenadas, tamanho e validacao. |
-| 713 | `    int linha;` | Cria variaveis para laco, coordenadas, tamanho e validacao. |
-| 714 | `    int coluna;` | Cria variaveis para laco, coordenadas, tamanho e validacao. |
-| 715 | `    int linhaEscolhida;` | Cria variaveis para laco, coordenadas, tamanho e validacao. |
-| 716 | `    int colunaEscolhida;` | Cria variaveis para laco, coordenadas, tamanho e validacao. |
-| 717 | `    int tamanho = jogo-&gt;config.tamanho;` | Cria variaveis para laco, coordenadas, tamanho e validacao. |
-| 718 | `    int entradaValida;` | Cria variaveis para laco, coordenadas, tamanho e validacao. |
-| 719 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 720 | `    for (i = 0; i &lt; 3; i++)` | Comeca o laco dos tres bombardeios. |
-| 721 | `    {` | Abre ou fecha um bloco de codigo. |
-| 722 | `        mostrarCampos(jogo);` | Mostra os campos. |
-| 723 | `        printf("Bombardeio %d de 3\n", i + 1);` | Mostra qual bombardeio esta sendo feito. |
-| 724 | `        printf("Digite 0 na linha para voltar ao menu sem salvar.\n");` | Explica que linha `0` volta ao menu sem salvar. |
-| 725 | `        printf("Digite -1 na linha para salvar e voltar ao menu.\n");` | Explica que linha `-1` salva e volta ao menu. |
-| 726 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 727 | `        do` | Repete a leitura ate o usuario informar uma posicao valida e ainda nao atacada. |
-| 728 | `        {` | Repete a leitura ate o usuario informar uma posicao valida e ainda nao atacada. |
-| 729 | `            entradaValida = 1;` | Repete a leitura ate o usuario informar uma posicao valida e ainda nao atacada. |
-| 730 | `            linhaEscolhida = lerInteiro("Escolha a linha do campo adversario: ");` | Repete a leitura ate o usuario informar uma posicao valida e ainda nao atacada. |
-| 731 | &nbsp; | Repete a leitura ate o usuario informar uma posicao valida e ainda nao atacada. |
-| 732 | `            if (linhaEscolhida == 0)` | Se a linha for `0`, encerra a partida atual e volta ao menu. |
-| 733 | `            {` | Se a linha for `0`, encerra a partida atual e volta ao menu. |
-| 734 | `                jogo-&gt;emAndamento = 0;` | Se a linha for `0`, encerra a partida atual e volta ao menu. |
-| 735 | `                return 0;` | Se a linha for `0`, encerra a partida atual e volta ao menu. |
-| 736 | `            }` | Se a linha for `0`, encerra a partida atual e volta ao menu. |
-| 737 | &nbsp; | Repete a leitura ate o usuario informar uma posicao valida e ainda nao atacada. |
-| 738 | `            if (linhaEscolhida == -1)` | Se a linha for `-1`, salva o jogo e volta ao menu. |
-| 739 | `            {` | Se a linha for `-1`, salva o jogo e volta ao menu. |
-| 740 | `                salvarJogo(jogo);` | Se a linha for `-1`, salva o jogo e volta ao menu. |
-| 741 | `                printf("Jogo salvo.\n");` | Se a linha for `-1`, salva o jogo e volta ao menu. |
-| 742 | `                return 0;` | Se a linha for `-1`, salva o jogo e volta ao menu. |
-| 743 | `            }` | Se a linha for `-1`, salva o jogo e volta ao menu. |
-| 744 | &nbsp; | Repete a leitura ate o usuario informar uma posicao valida e ainda nao atacada. |
-| 745 | `            if (linhaEscolhida &lt; 1 &#124;&#124; linhaEscolhida &gt; tamanho)` | Valida se a linha esta dentro do campo. |
-| 746 | `            {` | Valida se a linha esta dentro do campo. |
-| 747 | `                printf("Linha invalida. Use valores de 1 ate %d.\n", tamanho);` | Valida se a linha esta dentro do campo. |
-| 748 | `                entradaValida = 0;` | Valida se a linha esta dentro do campo. |
-| 749 | `            }` | Valida se a linha esta dentro do campo. |
-| 750 | `            else` | Repete a leitura ate o usuario informar uma posicao valida e ainda nao atacada. |
-| 751 | `            {` | Repete a leitura ate o usuario informar uma posicao valida e ainda nao atacada. |
-| 752 | `                colunaEscolhida = lerInteiro("Escolha a coluna do campo adversario: ");` | Le a coluna escolhida. |
-| 753 | &nbsp; | Repete a leitura ate o usuario informar uma posicao valida e ainda nao atacada. |
-| 754 | `                if (colunaEscolhida &lt; 1 &#124;&#124; colunaEscolhida &gt; tamanho)` | Valida se a coluna esta dentro do campo. |
-| 755 | `                {` | Valida se a coluna esta dentro do campo. |
-| 756 | `                    printf("Coluna invalida. Use valores de 1 ate %d.\n", tamanho);` | Valida se a coluna esta dentro do campo. |
-| 757 | `                    entradaValida = 0;` | Valida se a coluna esta dentro do campo. |
-| 758 | `                }` | Valida se a coluna esta dentro do campo. |
-| 759 | `                else` | Repete a leitura ate o usuario informar uma posicao valida e ainda nao atacada. |
-| 760 | `                {` | Repete a leitura ate o usuario informar uma posicao valida e ainda nao atacada. |
-| 761 | `                    linha = linhaEscolhida - 1;` | Converte linha e coluna de 1..N para 0..N-1. |
-| 762 | `                    coluna = colunaEscolhida - 1;` | Converte linha e coluna de 1..N para 0..N-1. |
-| 763 | `                }` | Repete a leitura ate o usuario informar uma posicao valida e ainda nao atacada. |
-| 764 | &nbsp; | Repete a leitura ate o usuario informar uma posicao valida e ainda nao atacada. |
-| 765 | `                if (entradaValida &amp;&amp; posicaoJaBombardeada(&amp;jogo-&gt;humano, linha, coluna))` | Impede bombardear a mesma posicao duas vezes. |
-| 766 | `                {` | Impede bombardear a mesma posicao duas vezes. |
-| 767 | `                    printf("Essa posicao ja foi bombardeada.\n");` | Impede bombardear a mesma posicao duas vezes. |
-| 768 | `                    entradaValida = 0;` | Impede bombardear a mesma posicao duas vezes. |
-| 769 | `                }` | Impede bombardear a mesma posicao duas vezes. |
-| 770 | `            }` | Repete a leitura ate o usuario informar uma posicao valida e ainda nao atacada. |
-| 771 | `        } while (!entradaValida);` | Repete a leitura ate o usuario informar uma posicao valida e ainda nao atacada. |
-| 772 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 773 | `        printf("\nResultado do bombardeio: ");` | Executa o bombardeio e mostra o resultado. |
-| 774 | `        mostrarResultadoBombardeio(bombardear(&amp;jogo-&gt;humano, &amp;jogo-&gt;computador, linha, coluna));` | Executa o bombardeio e mostra o resultado. |
-| 775 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 776 | `        if (jogo-&gt;computador.naviosAfundados == jogo-&gt;computador.totalNavios)` | Se todos os navios do computador afundaram, indica fim do jogo. |
-| 777 | `        {` | Se todos os navios do computador afundaram, indica fim do jogo. |
-| 778 | `            return 1;` | Se todos os navios do computador afundaram, indica fim do jogo. |
-| 779 | `        }` | Se todos os navios do computador afundaram, indica fim do jogo. |
-| 780 | `    }` | Abre ou fecha um bloco de codigo. |
-| 781 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 782 | `    jogo-&gt;turno = 1;` | Passa o turno para o computador. |
-| 783 | `    printf("\nFim do seu turno. Agora e a vez da maquina bombardear.\n");` | Mostra mensagem de fim do turno humano. |
-| 784 | `    return 1;` | Retorna que a partida deve continuar. |
-| 785 | `}` | Fecha a funcao. |
+| 703 | `        if (defensor-&gt;navios[indice].acertos == 2)` | Se o navio recebeu dois acertos, marca como afundado e retorna `5`. |
+| 704 | `        {` | Abre ou fecha um bloco de codigo. |
+| 705 | `            defensor-&gt;naviosAfundados++;` | Se o navio recebeu dois acertos, marca como afundado e retorna `5`. |
+| 706 | `            marcarNavioAfundado(atacante-&gt;visaoAdversario, defensor-&gt;navios[indice]);` | Se o navio recebeu dois acertos, marca como afundado e retorna `5`. |
+| 707 | `            return MARCA_AFUNDOU;` | Se o navio recebeu dois acertos, marca como afundado e retorna `5`. |
+| 708 | `        }` | Fecha um bloco de codigo. |
+| 709 | `        else` | Caso contrario, executa o outro bloco. |
+| 710 | `        {` | Abre ou fecha um bloco de codigo. |
+| 711 | `            atacante-&gt;visaoAdversario[linha][coluna] = MARCA_IMPACTO;` | Se ainda nao afundou, marca impacto e retorna `4`. |
+| 712 | `            return MARCA_IMPACTO;` | Se ainda nao afundou, marca impacto e retorna `4`. |
+| 713 | `        }` | Fecha um bloco de codigo. |
+| 714 | `    }` | Fecha um bloco de codigo. |
+| 715 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 716 | `    return MARCA_AGUA;` | Retorna agua para qualquer outro caso. |
+| 717 | `}` | Fecha um bloco de codigo. |
+| 718 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 719 | `/* Mostra o texto do resultado de um bombardeio. */` | Comentario sobre mostrar resultado do bombardeio. |
+| 720 | `void mostrarResultadoBombardeio(int resultado)` | Inicio da funcao `mostrarResultadoBombardeio`. |
+| 721 | `{` | Abre um bloco de codigo. |
+| 722 | `    if (resultado == MARCA_AGUA)` | Se o resultado foi agua, imprime `Agua!`. |
+| 723 | `    {` | Abre ou fecha um bloco de codigo. |
+| 724 | `        printf("Agua!\n");` | Se o resultado foi agua, imprime `Agua!`. |
+| 725 | `    }` | Fecha um bloco de codigo. |
+| 726 | `    else if (resultado == MARCA_IMPACTO)` | Se foi impacto, imprime `Impacto!`. |
+| 727 | `    {` | Abre ou fecha um bloco de codigo. |
+| 728 | `        printf("Impacto!\n");` | Se foi impacto, imprime `Impacto!`. |
+| 729 | `    }` | Fecha um bloco de codigo. |
+| 730 | `    else` | Caso contrario, executa o outro bloco. |
+| 731 | `    {` | Abre ou fecha um bloco de codigo. |
+| 732 | `        printf("Afundou!\n");` | Caso contrario, imprime `Afundou!`. |
+| 733 | `    }` | Fecha um bloco de codigo. |
+| 734 | `}` | Fecha um bloco de codigo. |
+| 735 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 736 | `/* Verifica se o jogador ja bombardeou uma posicao. */` | Comentario sobre verificar posicao ja bombardeada. |
+| 737 | `int posicaoJaBombardeada(Jogador *atacante, int linha, int coluna)` | Inicio da funcao `posicaoJaBombardeada`. |
+| 738 | `{` | Abre um bloco de codigo. |
+| 739 | `    return atacante-&gt;visaoAdversario[linha][coluna] != DESCONHECIDO;` | Retorna verdadeiro se a posicao nao esta mais desconhecida. |
+| 740 | `}` | Fecha um bloco de codigo. |
+| 741 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 742 | `/* Executa os tres bombardeios do jogador humano. */` | Comentario sobre os tres bombardeios do humano. |
+| 743 | `int turnoHumano(Jogo *jogo)` | Inicio da funcao `turnoHumano`. |
+| 744 | `{` | Abre um bloco de codigo. |
+| 745 | `    int i;` | Cria um contador para laco. |
+| 746 | `    int linha;` | Cria variavel para guardar uma linha do campo. |
+| 747 | `    int coluna;` | Cria variavel para guardar uma coluna do campo. |
+| 748 | `    int linhaEscolhida;` | Cria variaveis para laco, coordenadas, tamanho e validacao. |
+| 749 | `    int colunaEscolhida;` | Cria variaveis para laco, coordenadas, tamanho e validacao. |
+| 750 | `    int tamanho = jogo-&gt;config.tamanho;` | Guarda o tamanho do campo em uma variavel. |
+| 751 | `    int entradaValida;` | Cria variaveis para laco, coordenadas, tamanho e validacao. |
+| 752 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 753 | `    for (i = jogo-&gt;bombardeiosHumanoFeitos; i &lt; 3; i++)` | Continua o turno humano a partir do bombardeio que ainda falta fazer. |
+| 754 | `    {` | Abre ou fecha um bloco de codigo. |
+| 755 | `        mostrarCampos(jogo);` | Mostra os campos antes de pedir o proximo bombardeio. |
+| 756 | `        printf("Bombardeio %d de 3\n", i + 1);` | Mostra qual bombardeio esta sendo feito. |
+| 757 | `        printf("Digite 0 na linha para voltar ao menu sem salvar.\n");` | Explica que linha `0` volta ao menu sem salvar. |
+| 758 | `        printf("Digite -1 na linha para salvar e voltar ao menu.\n");` | Explica que linha `-1` salva e volta ao menu. |
+| 759 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 760 | `        do` | Comeca a repeticao da leitura ate a entrada ser valida. |
+| 761 | `        {` | Abre ou fecha um bloco de codigo. |
+| 762 | `            entradaValida = 1;` | Repete a leitura ate o usuario informar uma posicao valida e ainda nao atacada. |
+| 763 | `            linhaEscolhida = lerInteiro("Escolha a linha do campo adversario: ");` | Repete a leitura ate o usuario informar uma posicao valida e ainda nao atacada. |
+| 764 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 765 | `            if (linhaEscolhida == 0)` | Se a linha for `0`, encerra a partida atual e volta ao menu. |
+| 766 | `            {` | Abre ou fecha um bloco de codigo. |
+| 767 | `                jogo-&gt;emAndamento = 0;` | Se a linha for `0`, encerra a partida atual e volta ao menu. |
+| 768 | `                return 0;` | Volta ao menu sem continuar a partida. |
+| 769 | `            }` | Fecha um bloco de codigo. |
+| 770 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 771 | `            if (linhaEscolhida == -1)` | Se a linha for `-1`, salva o jogo e volta ao menu. |
+| 772 | `            {` | Abre ou fecha um bloco de codigo. |
+| 773 | `                salvarJogo(jogo);` | Se a linha for `-1`, salva o jogo e volta ao menu. |
+| 774 | `                printf("Jogo salvo.\n");` | Se a linha for `-1`, salva o jogo e volta ao menu. |
+| 775 | `                return 0;` | Volta ao menu depois de salvar a partida. |
+| 776 | `            }` | Fecha um bloco de codigo. |
+| 777 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 778 | `            if (linhaEscolhida &lt; 1 &#124;&#124; linhaEscolhida &gt; tamanho)` | Valida se a linha esta dentro do campo. |
+| 779 | `            {` | Abre ou fecha um bloco de codigo. |
+| 780 | `                printf("Linha invalida. Use valores de 1 ate %d.\n", tamanho);` | Valida se a linha esta dentro do campo. |
+| 781 | `                entradaValida = 0;` | Valida se a linha esta dentro do campo. |
+| 782 | `            }` | Fecha um bloco de codigo. |
+| 783 | `            else` | Caso contrario, executa o outro bloco. |
+| 784 | `            {` | Abre ou fecha um bloco de codigo. |
+| 785 | `                colunaEscolhida = lerInteiro("Escolha a coluna do campo adversario: ");` | Le a coluna escolhida. |
 | 786 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 787 | `/* Converte uma posicao sorteada em linha e coluna. */` | Comentario sobre converter posicao em coordenada. |
-| 788 | `void posicaoParaCoordenada(int posicao, int tamanho, int *linha, int *coluna)` | Inicio da funcao `posicaoParaCoordenada`. |
-| 789 | `{` | Abre ou fecha um bloco de codigo. |
-| 790 | `    posicao--;` | Ajusta a posicao para comecar em zero. |
-| 791 | `    *linha = posicao / tamanho;` | Calcula a linha. |
-| 792 | `    *coluna = posicao % tamanho;` | Calcula a coluna. |
-| 793 | `}` | Fecha a funcao. |
-| 794 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 795 | `/* Sorteia uma posicao valida para o computador. */` | Comentario sobre sortear posicao do computador. |
-| 796 | `void sortearPosicaoComputador(Jogo *jogo, int *linha, int *coluna)` | Inicio da funcao `sortearPosicaoComputador`. |
-| 797 | `{` | Abre ou fecha um bloco de codigo. |
-| 798 | `    int posicao;` | Cria variavel para a posicao sorteada. |
-| 799 | `    int limite = jogo-&gt;config.tamanho * jogo-&gt;config.tamanho;` | Calcula o total de casas do campo. |
-| 800 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 801 | `    do` | Sorteia uma posicao ate encontrar uma que ainda nao foi bombardeada. |
-| 802 | `    {` | Sorteia uma posicao ate encontrar uma que ainda nao foi bombardeada. |
-| 803 | `        posicao = (rand() % limite) + 1;` | Sorteia uma posicao ate encontrar uma que ainda nao foi bombardeada. |
-| 804 | `        posicaoParaCoordenada(posicao, jogo-&gt;config.tamanho, linha, coluna);` | Sorteia uma posicao ate encontrar uma que ainda nao foi bombardeada. |
-| 805 | `    } while (posicaoJaBombardeada(&amp;jogo-&gt;computador, *linha, *coluna));` | Sorteia uma posicao ate encontrar uma que ainda nao foi bombardeada. |
-| 806 | `}` | Fecha a funcao. |
-| 807 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 808 | `/* Executa os tres bombardeios do computador. */` | Comentario sobre os tres bombardeios do computador. |
-| 809 | `void turnoComputador(Jogo *jogo)` | Inicio da funcao `turnoComputador`. |
-| 810 | `{` | Abre ou fecha um bloco de codigo. |
-| 811 | `    int i;` | Cria variaveis, vetores de linhas, colunas e resultados. |
-| 812 | `    int j;` | Cria variaveis, vetores de linhas, colunas e resultados. |
-| 813 | `    int linha;` | Cria variaveis, vetores de linhas, colunas e resultados. |
-| 814 | `    int coluna;` | Cria variaveis, vetores de linhas, colunas e resultados. |
-| 815 | `    int totalBombardeios = 0;` | Cria variaveis, vetores de linhas, colunas e resultados. |
-| 816 | `    int linhas[3];` | Cria variaveis, vetores de linhas, colunas e resultados. |
-| 817 | `    int colunas[3];` | Cria variaveis, vetores de linhas, colunas e resultados. |
-| 818 | `    int resultados[3];` | Cria variaveis, vetores de linhas, colunas e resultados. |
-| 819 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 820 | `    for (i = 0; i &lt; 3; i++)` | Comeca o laco dos tres bombardeios. |
-| 821 | `    {` | Abre ou fecha um bloco de codigo. |
-| 822 | `        sortearPosicaoComputador(jogo, &amp;linha, &amp;coluna);` | Sorteia uma posicao valida. |
-| 823 | `        linhas[i] = linha + 1;` | Guarda a linha e a coluna sorteadas, usando numeros que comecam em 1. |
-| 824 | `        colunas[i] = coluna + 1;` | Guarda a linha e a coluna sorteadas, usando numeros que comecam em 1. |
-| 825 | `        resultados[i] = bombardear(&amp;jogo-&gt;computador, &amp;jogo-&gt;humano, linha, coluna);` | Executa o bombardeio contra o humano. |
-| 826 | `        totalBombardeios++;` | Aumenta o total de bombardeios feitos. |
-| 827 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 828 | `        limparTela();` | Limpa a tela. |
-| 829 | `        mostrarCampos(jogo);` | Mostra os campos atualizados. |
-| 830 | `        printf("===== BOMBARDEIOS DA MAQUINA =====\n");` | Imprime o titulo dos bombardeios da maquina. |
-| 831 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 832 | `        for (j = 0; j &lt; totalBombardeios; j++)` | Mostra todos os bombardeios da maquina feitos neste turno ate agora. |
-| 833 | `        {` | Mostra todos os bombardeios da maquina feitos neste turno ate agora. |
-| 834 | `            printf("Bombardeio %d de 3\n", j + 1);` | Mostra todos os bombardeios da maquina feitos neste turno ate agora. |
-| 835 | `            printf("A maquina bombardeou a linha %d e coluna %d.\n", linhas[j], colunas[j]);` | Mostra todos os bombardeios da maquina feitos neste turno ate agora. |
-| 836 | `            printf("\nResultado do bombardeio: ");` | Mostra todos os bombardeios da maquina feitos neste turno ate agora. |
-| 837 | `            mostrarResultadoBombardeio(resultados[j]);` | Mostra todos os bombardeios da maquina feitos neste turno ate agora. |
-| 838 | `            printf("\n");` | Mostra todos os bombardeios da maquina feitos neste turno ate agora. |
-| 839 | `        }` | Mostra todos os bombardeios da maquina feitos neste turno ate agora. |
-| 840 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 841 | `        if (jogo-&gt;humano.naviosAfundados == jogo-&gt;humano.totalNavios)` | Para o turno se todos os navios humanos afundaram. |
-| 842 | `        {` | Para o turno se todos os navios humanos afundaram. |
-| 843 | `            break;` | Para o turno se todos os navios humanos afundaram. |
-| 844 | `        }` | Para o turno se todos os navios humanos afundaram. |
-| 845 | `    }` | Abre ou fecha um bloco de codigo. |
-| 846 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 847 | `    if (jogo-&gt;humano.naviosAfundados == jogo-&gt;humano.totalNavios)` | Se o humano perdeu, sai da funcao. |
-| 848 | `    {` | Se o humano perdeu, sai da funcao. |
-| 849 | `        return;` | Se o humano perdeu, sai da funcao. |
-| 850 | `    }` | Se o humano perdeu, sai da funcao. |
-| 851 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 852 | `    aguardarEnter();` | Espera o usuario apertar ENTER. |
-| 853 | `    jogo-&gt;turno = 0;` | Devolve o turno para o humano. |
-| 854 | `}` | Fecha a funcao. |
-| 855 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 856 | `/* Menu que aparece depois de vitoria ou derrota. */` | Comentario sobre menu de fim de jogo. |
-| 857 | `int menuFimDeJogo(void)` | Inicio da funcao `menuFimDeJogo`. |
-| 858 | `{` | Abre ou fecha um bloco de codigo. |
-| 859 | `    printf("\n1 - Jogar novamente\n");` | Mostra as opcoes depois de uma vitoria ou derrota. |
-| 860 | `    printf("2 - Voltar ao menu principal\n");` | Mostra as opcoes depois de uma vitoria ou derrota. |
-| 861 | `    printf("3 - Sair\n");` | Mostra as opcoes depois de uma vitoria ou derrota. |
-| 862 | `    return lerInteiro("Escolha: ");` | Le e retorna a opcao escolhida. |
-| 863 | `}` | Fecha a funcao. |
-| 864 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 865 | `/* Controla a partida ate alguem vencer ou o jogador voltar ao menu. */` | Comentario sobre controlar a partida. |
-| 866 | `void executarPartida(Jogo *jogo)` | Inicio da funcao `executarPartida`. |
-| 867 | `{` | Abre ou fecha um bloco de codigo. |
-| 868 | `    int opcao;` | Cria variavel para opcao do menu final. |
-| 869 | `    int terminou = 0;` | Cria variavel para indicar se a partida terminou. |
-| 870 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 871 | `    while (jogo-&gt;emAndamento &amp;&amp; !terminou)` | Mantem a partida rodando enquanto estiver em andamento e nao tiver vencedor. |
-| 872 | `    {` | Abre ou fecha um bloco de codigo. |
-| 873 | `        if (jogo-&gt;turno == 0)` | Se for turno humano, executa o turno humano e pode voltar ao menu. |
-| 874 | `        {` | Se for turno humano, executa o turno humano e pode voltar ao menu. |
-| 875 | `            if (!turnoHumano(jogo))` | Se for turno humano, executa o turno humano e pode voltar ao menu. |
-| 876 | `            {` | Se for turno humano, executa o turno humano e pode voltar ao menu. |
-| 877 | `                return;` | Se for turno humano, executa o turno humano e pode voltar ao menu. |
-| 878 | `            }` | Se for turno humano, executa o turno humano e pode voltar ao menu. |
-| 879 | `        }` | Se for turno humano, executa o turno humano e pode voltar ao menu. |
-| 880 | `        else` | Se for turno do computador, executa o turno do computador. |
-| 881 | `        {` | Se for turno do computador, executa o turno do computador. |
-| 882 | `            turnoComputador(jogo);` | Se for turno do computador, executa o turno do computador. |
-| 883 | `        }` | Se for turno do computador, executa o turno do computador. |
-| 884 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 885 | `        if (jogo-&gt;computador.naviosAfundados == jogo-&gt;computador.totalNavios)` | Se todos os navios do computador afundaram, mostra vitoria. |
-| 886 | `        {` | Se todos os navios do computador afundaram, mostra vitoria. |
-| 887 | `            printf("\nVoce venceu!\n");` | Se todos os navios do computador afundaram, mostra vitoria. |
-| 888 | `            terminou = 1;` | Se todos os navios do computador afundaram, mostra vitoria. |
-| 889 | `        }` | Se todos os navios do computador afundaram, mostra vitoria. |
-| 890 | `        else if (jogo-&gt;humano.naviosAfundados == jogo-&gt;humano.totalNavios)` | Se todos os navios do humano afundaram, mostra derrota. |
-| 891 | `        {` | Se todos os navios do humano afundaram, mostra derrota. |
-| 892 | `            printf("\nVoce perdeu!\n");` | Se todos os navios do humano afundaram, mostra derrota. |
-| 893 | `            terminou = 1;` | Se todos os navios do humano afundaram, mostra derrota. |
-| 894 | `        }` | Se todos os navios do humano afundaram, mostra derrota. |
-| 895 | `    }` | Abre ou fecha um bloco de codigo. |
-| 896 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 897 | `    while (terminou)` | Enquanto a partida terminou, mostra o menu final. |
-| 898 | `    {` | Abre ou fecha um bloco de codigo. |
-| 899 | `        opcao = menuFimDeJogo();` | Le a opcao do menu final. |
+| 787 | `                if (colunaEscolhida &lt; 1 &#124;&#124; colunaEscolhida &gt; tamanho)` | Valida se a coluna esta dentro do campo. |
+| 788 | `                {` | Abre ou fecha um bloco de codigo. |
+| 789 | `                    printf("Coluna invalida. Use valores de 1 ate %d.\n", tamanho);` | Valida se a coluna esta dentro do campo. |
+| 790 | `                    entradaValida = 0;` | Marca a entrada como invalida para pedir novamente. |
+| 791 | `                }` | Fecha um bloco de codigo. |
+| 792 | `                else` | Caso contrario, executa o outro bloco. |
+| 793 | `                {` | Abre ou fecha um bloco de codigo. |
+| 794 | `                    linha = linhaEscolhida - 1;` | Converte linha e coluna de 1..N para 0..N-1. |
+| 795 | `                    coluna = colunaEscolhida - 1;` | Converte linha e coluna de 1..N para 0..N-1. |
+| 796 | `                }` | Fecha um bloco de codigo. |
+| 797 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 798 | `                if (entradaValida &amp;&amp; posicaoJaBombardeada(&amp;jogo-&gt;humano, linha, coluna))` | Impede bombardear a mesma posicao duas vezes. |
+| 799 | `                {` | Abre ou fecha um bloco de codigo. |
+| 800 | `                    printf("Essa posicao ja foi bombardeada.\n");` | Impede bombardear a mesma posicao duas vezes. |
+| 801 | `                    entradaValida = 0;` | Marca a entrada como invalida para impedir repetir bombardeio. |
+| 802 | `                }` | Fecha um bloco de codigo. |
+| 803 | `            }` | Fecha um bloco de codigo. |
+| 804 | `        } while (!entradaValida);` | Repete a leitura ate o usuario informar uma posicao valida e ainda nao atacada. |
+| 805 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 806 | `        printf("\nResultado do bombardeio: ");` | Executa o bombardeio e mostra o resultado. |
+| 807 | `        mostrarResultadoBombardeio(bombardear(&amp;jogo-&gt;humano, &amp;jogo-&gt;computador, linha, coluna));` | Executa o bombardeio e mostra o resultado. |
+| 808 | `        jogo-&gt;bombardeiosHumanoFeitos = i + 1;` | Atualiza quantos bombardeios o humano ja fez antes de permitir salvar. |
+| 809 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 810 | `        if (jogo-&gt;computador.naviosAfundados == jogo-&gt;computador.totalNavios)` | Verifica se todos os navios do computador foram afundados. |
+| 811 | `        {` | Abre ou fecha um bloco de codigo. |
+| 812 | `            return 1;` | Encerra a funcao informando sucesso ou que a partida continua. |
+| 813 | `        }` | Fecha um bloco de codigo. |
+| 814 | `    }` | Fecha um bloco de codigo. |
+| 815 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 816 | `    jogo-&gt;bombardeiosHumanoFeitos = 0;` | Zera o contador de bombardeios do turno humano. |
+| 817 | `    jogo-&gt;turno = 1;` | Passa o turno para o computador. |
+| 818 | `    printf("\nFim do seu turno. Agora e a vez da maquina bombardear.\n");` | Mostra mensagem de fim do turno humano. |
+| 819 | `    return 1;` | Retorna que a partida deve continuar. |
+| 820 | `}` | Fecha um bloco de codigo. |
+| 821 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 822 | `/* Converte uma posicao sorteada em linha e coluna. */` | Comentario sobre converter posicao em coordenada. |
+| 823 | `void posicaoParaCoordenada(int posicao, int tamanho, int *linha, int *coluna)` | Inicio da funcao `posicaoParaCoordenada`. |
+| 824 | `{` | Abre um bloco de codigo. |
+| 825 | `    posicao--;` | Ajusta a posicao para comecar em zero. |
+| 826 | `    *linha = posicao / tamanho;` | Calcula a linha. |
+| 827 | `    *coluna = posicao % tamanho;` | Calcula a coluna. |
+| 828 | `}` | Fecha um bloco de codigo. |
+| 829 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 830 | `/* Sorteia uma posicao valida para o computador. */` | Comentario sobre sortear posicao do computador. |
+| 831 | `void sortearPosicaoComputador(Jogo *jogo, int *linha, int *coluna)` | Inicio da funcao `sortearPosicaoComputador`. |
+| 832 | `{` | Abre um bloco de codigo. |
+| 833 | `    int posicao;` | Cria variavel para a posicao sorteada. |
+| 834 | `    int limite = jogo-&gt;config.tamanho * jogo-&gt;config.tamanho;` | Calcula o total de casas do campo. |
+| 835 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 836 | `    do` | Executa uma instrucao do programa. |
+| 837 | `    {` | Abre ou fecha um bloco de codigo. |
+| 838 | `        posicao = (rand() % limite) + 1;` | Sorteia uma posicao ate encontrar uma que ainda nao foi bombardeada. |
+| 839 | `        posicaoParaCoordenada(posicao, jogo-&gt;config.tamanho, linha, coluna);` | Sorteia uma posicao ate encontrar uma que ainda nao foi bombardeada. |
+| 840 | `    } while (posicaoJaBombardeada(&amp;jogo-&gt;computador, *linha, *coluna));` | Sorteia uma posicao ate encontrar uma que ainda nao foi bombardeada. |
+| 841 | `}` | Fecha um bloco de codigo. |
+| 842 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 843 | `/* Executa os tres bombardeios do computador. */` | Comentario sobre os tres bombardeios do computador. |
+| 844 | `void turnoComputador(Jogo *jogo)` | Inicio da funcao `turnoComputador`. |
+| 845 | `{` | Abre um bloco de codigo. |
+| 846 | `    int i;` | Cria um contador para laco. |
+| 847 | `    int j;` | Cria um contador para laco. |
+| 848 | `    int linha;` | Cria variavel para guardar uma linha do campo. |
+| 849 | `    int coluna;` | Cria variavel para guardar uma coluna do campo. |
+| 850 | `    int totalBombardeios = 0;` | Cria variaveis, vetores de linhas, colunas e resultados. |
+| 851 | `    int linhas[3];` | Cria variaveis, vetores de linhas, colunas e resultados. |
+| 852 | `    int colunas[3];` | Cria variaveis, vetores de linhas, colunas e resultados. |
+| 853 | `    int resultados[3];` | Cria variaveis, vetores de linhas, colunas e resultados. |
+| 854 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 855 | `    for (i = 0; i &lt; 3; i++)` | Comeca o laco dos tres bombardeios. |
+| 856 | `    {` | Abre ou fecha um bloco de codigo. |
+| 857 | `        sortearPosicaoComputador(jogo, &amp;linha, &amp;coluna);` | Sorteia uma posicao valida. |
+| 858 | `        linhas[i] = linha + 1;` | Guarda a linha e a coluna sorteadas, usando numeros que comecam em 1. |
+| 859 | `        colunas[i] = coluna + 1;` | Guarda a linha e a coluna sorteadas, usando numeros que comecam em 1. |
+| 860 | `        resultados[i] = bombardear(&amp;jogo-&gt;computador, &amp;jogo-&gt;humano, linha, coluna);` | Executa o bombardeio contra o humano. |
+| 861 | `        totalBombardeios++;` | Aumenta o total de bombardeios feitos. |
+| 862 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 863 | `        limparTela();` | Limpa a tela. |
+| 864 | `        mostrarCampos(jogo);` | Executa uma instrucao do programa. |
+| 865 | `        printf("===== BOMBARDEIOS DA MAQUINA =====\n");` | Imprime o titulo dos bombardeios da maquina. |
+| 866 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 867 | `        for (j = 0; j &lt; totalBombardeios; j++)` | Mostra todos os bombardeios da maquina feitos neste turno ate agora. |
+| 868 | `        {` | Abre ou fecha um bloco de codigo. |
+| 869 | `            printf("Bombardeio %d de 3\n", j + 1);` | Mostra todos os bombardeios da maquina feitos neste turno ate agora. |
+| 870 | `            printf("A maquina bombardeou a linha %d e coluna %d.\n", linhas[j], colunas[j]);` | Mostra todos os bombardeios da maquina feitos neste turno ate agora. |
+| 871 | `            printf("\nResultado do bombardeio: ");` | Mostra todos os bombardeios da maquina feitos neste turno ate agora. |
+| 872 | `            mostrarResultadoBombardeio(resultados[j]);` | Mostra todos os bombardeios da maquina feitos neste turno ate agora. |
+| 873 | `            printf("\n");` | Mostra todos os bombardeios da maquina feitos neste turno ate agora. |
+| 874 | `        }` | Fecha um bloco de codigo. |
+| 875 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 876 | `        if (jogo-&gt;humano.naviosAfundados == jogo-&gt;humano.totalNavios)` | Para o turno se todos os navios humanos afundaram. |
+| 877 | `        {` | Abre ou fecha um bloco de codigo. |
+| 878 | `            break;` | Para o turno se todos os navios humanos afundaram. |
+| 879 | `        }` | Fecha um bloco de codigo. |
+| 880 | `    }` | Fecha um bloco de codigo. |
+| 881 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 882 | `    if (jogo-&gt;humano.naviosAfundados == jogo-&gt;humano.totalNavios)` | Se o humano perdeu, sai da funcao. |
+| 883 | `    {` | Abre ou fecha um bloco de codigo. |
+| 884 | `        return;` | Retorna um valor ou encerra a funcao. |
+| 885 | `    }` | Fecha um bloco de codigo. |
+| 886 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 887 | `    aguardarEnter();` | Espera o usuario apertar ENTER. |
+| 888 | `    jogo-&gt;bombardeiosHumanoFeitos = 0;` | Zera o contador de bombardeios do turno humano. |
+| 889 | `    jogo-&gt;turno = 0;` | Devolve o turno para o humano depois da maquina jogar. |
+| 890 | `}` | Fecha um bloco de codigo. |
+| 891 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 892 | `/* Menu que aparece depois de vitoria ou derrota. */` | Comentario sobre menu de fim de jogo. |
+| 893 | `int menuFimDeJogo(void)` | Inicio da funcao `menuFimDeJogo`. |
+| 894 | `{` | Abre um bloco de codigo. |
+| 895 | `    printf("\n1 - Jogar novamente\n");` | Mostra as opcoes depois de uma vitoria ou derrota. |
+| 896 | `    printf("2 - Voltar ao menu principal\n");` | Mostra as opcoes depois de uma vitoria ou derrota. |
+| 897 | `    printf("3 - Sair\n");` | Mostra as opcoes depois de uma vitoria ou derrota. |
+| 898 | `    return lerInteiro("Escolha: ");` | Retorna um valor ou encerra a funcao. |
+| 899 | `}` | Fecha um bloco de codigo. |
 | 900 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 901 | `        if (opcao == 1)` | Opcao 1: libera a partida antiga, cria outra e joga de novo. |
-| 902 | `        {` | Opcao 1: libera a partida antiga, cria outra e joga de novo. |
-| 903 | `            liberarJogo(jogo);` | Opcao 1: libera a partida antiga, cria outra e joga de novo. |
-| 904 | `            inicializarJogo(jogo, jogo-&gt;config);` | Opcao 1: libera a partida antiga, cria outra e joga de novo. |
-| 905 | `            executarPartida(jogo);` | Opcao 1: libera a partida antiga, cria outra e joga de novo. |
-| 906 | `            terminou = 0;` | Opcao 1: libera a partida antiga, cria outra e joga de novo. |
-| 907 | `        }` | Opcao 1: libera a partida antiga, cria outra e joga de novo. |
-| 908 | `        else if (opcao == 2)` | Opcao 2: volta ao menu principal. |
-| 909 | `        {` | Opcao 2: volta ao menu principal. |
-| 910 | `            terminou = 0;` | Opcao 2: volta ao menu principal. |
-| 911 | `        }` | Opcao 2: volta ao menu principal. |
-| 912 | `        else if (opcao == 3)` | Opcao 3: encerra o programa. |
-| 913 | `        {` | Opcao 3: encerra o programa. |
-| 914 | `            jogo-&gt;emAndamento = 0;` | Opcao 3: encerra o programa. |
-| 915 | `            terminou = 0;` | Opcao 3: encerra o programa. |
-| 916 | `            exit(0);` | Opcao 3: encerra o programa. |
-| 917 | `        }` | Opcao 3: encerra o programa. |
-| 918 | `        else` | Qualquer outra opcao mostra erro. |
-| 919 | `        {` | Qualquer outra opcao mostra erro. |
-| 920 | `            printf("Opcao invalida.\n");` | Qualquer outra opcao mostra erro. |
-| 921 | `        }` | Qualquer outra opcao mostra erro. |
-| 922 | `    }` | Abre ou fecha um bloco de codigo. |
-| 923 | `}` | Fecha a funcao. |
-| 924 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 925 | `/* Permite mudar tamanho do campo e quantidade de navios. */` | Comentario sobre mudar configuracoes. |
-| 926 | `void configurarJogo(Configuracao *config)` | Inicio da funcao `configurarJogo`. |
-| 927 | `{` | Abre ou fecha um bloco de codigo. |
-| 928 | `    int tamanho;` | Cria variaveis para tamanho, navios e maximo permitido. |
-| 929 | `    int navios;` | Cria variaveis para tamanho, navios e maximo permitido. |
-| 930 | `    int maximoNavios;` | Cria variaveis para tamanho, navios e maximo permitido. |
-| 931 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 932 | `    tamanho = lerInteiro("Tamanho do campo quadrado (minimo 8): ");` | Le o tamanho do campo. |
-| 933 | `    if (tamanho &lt; TAMANHO_MINIMO)` | Se o tamanho for menor que o minimo, usa o minimo. |
-| 934 | `    {` | Se o tamanho for menor que o minimo, usa o minimo. |
-| 935 | `        tamanho = TAMANHO_MINIMO;` | Se o tamanho for menor que o minimo, usa o minimo. |
-| 936 | `    }` | Se o tamanho for menor que o minimo, usa o minimo. |
-| 937 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 938 | `    maximoNavios = (tamanho * tamanho) / 2;` | Calcula o maximo de navios possivel. |
-| 939 | `    navios = lerInteiro("Quantidade de navios de duas celulas (minimo 4): ");` | Le a quantidade de navios. |
-| 940 | `    if (navios &lt; NAVIOS_MINIMOS)` | Se a quantidade for menor que o minimo, usa o minimo. |
-| 941 | `    {` | Se a quantidade for menor que o minimo, usa o minimo. |
-| 942 | `        navios = NAVIOS_MINIMOS;` | Se a quantidade for menor que o minimo, usa o minimo. |
-| 943 | `    }` | Se a quantidade for menor que o minimo, usa o minimo. |
-| 944 | `    if (navios &gt; maximoNavios)` | Se a quantidade passar do maximo, limita ao maximo. |
-| 945 | `    {` | Se a quantidade passar do maximo, limita ao maximo. |
-| 946 | `        navios = maximoNavios;` | Se a quantidade passar do maximo, limita ao maximo. |
-| 947 | `    }` | Se a quantidade passar do maximo, limita ao maximo. |
-| 948 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 949 | `    config-&gt;tamanho = tamanho;` | Salva o tamanho na configuracao. |
-| 950 | `    config-&gt;quantidadeNavios = navios;` | Salva a quantidade de navios na configuracao. |
-| 951 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 952 | `    if (salvarConfiguracao(config))` | Tenta salvar e mostra mensagem de sucesso. |
-| 953 | `    {` | Tenta salvar e mostra mensagem de sucesso. |
-| 954 | `        printf("Configuracao salva.\n");` | Tenta salvar e mostra mensagem de sucesso. |
-| 955 | `    }` | Tenta salvar e mostra mensagem de sucesso. |
-| 956 | `    else` | Se nao conseguir salvar, mostra mensagem de erro. |
-| 957 | `    {` | Se nao conseguir salvar, mostra mensagem de erro. |
-| 958 | `        printf("Nao foi possivel salvar a configuracao.\n");` | Se nao conseguir salvar, mostra mensagem de erro. |
-| 959 | `    }` | Se nao conseguir salvar, mostra mensagem de erro. |
-| 960 | `}` | Fecha a funcao. |
-| 961 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 962 | `/* Le a opcao escolhida no menu principal. */` | Comentario sobre ler opcao do menu. |
-| 963 | `int lerOpcaoMenu(void)` | Inicio da funcao `lerOpcaoMenu`. |
-| 964 | `{` | Abre ou fecha um bloco de codigo. |
-| 965 | `    return lerInteiro("Escolha: ");` | Le e retorna a opcao escolhida. |
-| 966 | `}` | Fecha a funcao. |
+| 901 | `/* Controla a partida ate alguem vencer ou o jogador voltar ao menu. */` | Comentario sobre controlar a partida. |
+| 902 | `void executarPartida(Jogo *jogo)` | Inicio da funcao `executarPartida`. |
+| 903 | `{` | Abre um bloco de codigo. |
+| 904 | `    int opcao;` | Declara uma variavel inteira. |
+| 905 | `    int terminou = 0;` | Cria variavel para indicar se a partida terminou. |
+| 906 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 907 | `    while (jogo-&gt;emAndamento &amp;&amp; !terminou)` | Mantem a partida rodando enquanto estiver em andamento e nao tiver vencedor. |
+| 908 | `    {` | Abre ou fecha um bloco de codigo. |
+| 909 | `        if (jogo-&gt;turno == 0)` | Se for turno humano, executa o turno humano e pode voltar ao menu. |
+| 910 | `        {` | Abre ou fecha um bloco de codigo. |
+| 911 | `            if (!turnoHumano(jogo))` | Se for turno humano, executa o turno humano e pode voltar ao menu. |
+| 912 | `            {` | Abre ou fecha um bloco de codigo. |
+| 913 | `                return;` | Se for turno humano, executa o turno humano e pode voltar ao menu. |
+| 914 | `            }` | Fecha um bloco de codigo. |
+| 915 | `        }` | Fecha um bloco de codigo. |
+| 916 | `        else` | Caso contrario, executa o outro bloco. |
+| 917 | `        {` | Abre ou fecha um bloco de codigo. |
+| 918 | `            turnoComputador(jogo);` | Se for turno do computador, executa o turno do computador. |
+| 919 | `        }` | Fecha um bloco de codigo. |
+| 920 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 921 | `        if (jogo-&gt;computador.naviosAfundados == jogo-&gt;computador.totalNavios)` | Verifica uma condicao para decidir o que fazer. |
+| 922 | `        {` | Abre ou fecha um bloco de codigo. |
+| 923 | `            printf("\nVoce venceu!\n");` | Se todos os navios do computador afundaram, mostra vitoria. |
+| 924 | `            terminou = 1;` | Atualiza ou calcula um valor usado pelo programa. |
+| 925 | `        }` | Fecha um bloco de codigo. |
+| 926 | `        else if (jogo-&gt;humano.naviosAfundados == jogo-&gt;humano.totalNavios)` | Se todos os navios do humano afundaram, mostra derrota. |
+| 927 | `        {` | Abre ou fecha um bloco de codigo. |
+| 928 | `            printf("\nVoce perdeu!\n");` | Se todos os navios do humano afundaram, mostra derrota. |
+| 929 | `            terminou = 1;` | Atualiza ou calcula um valor usado pelo programa. |
+| 930 | `        }` | Fecha um bloco de codigo. |
+| 931 | `    }` | Fecha um bloco de codigo. |
+| 932 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 933 | `    while (terminou)` | Enquanto a partida terminou, mostra o menu final. |
+| 934 | `    {` | Abre ou fecha um bloco de codigo. |
+| 935 | `        opcao = menuFimDeJogo();` | Le a opcao do menu final. |
+| 936 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 937 | `        if (opcao == 1)` | Verifica uma condicao para decidir o que fazer. |
+| 938 | `        {` | Abre ou fecha um bloco de codigo. |
+| 939 | `            liberarJogo(jogo);` | Opcao 1: libera a partida antiga, cria outra e joga de novo. |
+| 940 | `            inicializarJogo(jogo, jogo-&gt;config);` | Opcao 1: libera a partida antiga, cria outra e joga de novo. |
+| 941 | `            executarPartida(jogo);` | Opcao 1: libera a partida antiga, cria outra e joga de novo. |
+| 942 | `            terminou = 0;` | Atualiza ou calcula um valor usado pelo programa. |
+| 943 | `        }` | Fecha um bloco de codigo. |
+| 944 | `        else if (opcao == 2)` | Atualiza ou calcula um valor usado pelo programa. |
+| 945 | `        {` | Abre ou fecha um bloco de codigo. |
+| 946 | `            terminou = 0;` | Atualiza ou calcula um valor usado pelo programa. |
+| 947 | `        }` | Fecha um bloco de codigo. |
+| 948 | `        else if (opcao == 3)` | Atualiza ou calcula um valor usado pelo programa. |
+| 949 | `        {` | Abre ou fecha um bloco de codigo. |
+| 950 | `            jogo-&gt;emAndamento = 0;` | Opcao 3: encerra o programa. |
+| 951 | `            terminou = 0;` | Atualiza ou calcula um valor usado pelo programa. |
+| 952 | `            exit(0);` | Opcao 3: encerra o programa. |
+| 953 | `        }` | Fecha um bloco de codigo. |
+| 954 | `        else` | Caso contrario, executa o outro bloco. |
+| 955 | `        {` | Abre ou fecha um bloco de codigo. |
+| 956 | `            printf("Opcao invalida.\n");` | Mostra uma mensagem na tela. |
+| 957 | `        }` | Fecha um bloco de codigo. |
+| 958 | `    }` | Fecha um bloco de codigo. |
+| 959 | `}` | Fecha um bloco de codigo. |
+| 960 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 961 | `/* Permite mudar tamanho do campo e quantidade de navios. */` | Comentario sobre mudar configuracoes. |
+| 962 | `void configurarJogo(Configuracao *config)` | Inicio da funcao `configurarJogo`. |
+| 963 | `{` | Abre um bloco de codigo. |
+| 964 | `    int tamanho;` | Declara uma variavel inteira. |
+| 965 | `    int navios;` | Cria variaveis para tamanho, navios e maximo permitido. |
+| 966 | `    int maximoNavios;` | Cria variaveis para tamanho, navios e maximo permitido. |
 | 967 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 968 | `/* Mostra o menu principal do jogo. */` | Comentario sobre mostrar menu principal. |
-| 969 | `void mostrarMenu(Configuracao config)` | Inicio da funcao `mostrarMenu`. |
-| 970 | `{` | Abre ou fecha um bloco de codigo. |
-| 971 | `    printf("\n===== BATALHA NAVAL =====\n");` | Imprime o titulo do jogo. |
-| 972 | `    printf("Configuracao atual: campo %dx%d, %d navios\n",` | Mostra a configuracao atual. |
-| 973 | `           config.tamanho, config.tamanho, config.quantidadeNavios);` | Mostra a configuracao atual. |
-| 974 | `    printf("1 - Novo Jogo\n");` | Mostra opcao de novo jogo. |
-| 975 | `    printf("2 - Configurar\n");` | Mostra opcao de configurar. |
-| 976 | `    printf("3 - Carregar\n");` | Mostra opcao de carregar jogo salvo. |
-| 977 | `    printf("4 - Sair\n");` | Mostra opcao de sair. |
-| 978 | `}` | Fecha a funcao. |
-| 979 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 980 | `/* Funcao principal: o programa sempre comeca por aqui. */` | Comentario dizendo que o programa comeca na funcao principal. |
-| 981 | `int main(void)` | Inicio da funcao `main`. |
-| 982 | `{` | Abre ou fecha um bloco de codigo. |
-| 983 | `    Configuracao config;` | Cria a variavel de configuracao. |
-| 984 | `    Jogo jogo;` | Cria a variavel que guarda a partida. |
-| 985 | `    int opcao;` | Cria a variavel da opcao escolhida. |
-| 986 | `    int executando = 1;` | Cria variavel que mantem o menu rodando. |
+| 968 | `    tamanho = lerInteiro("Tamanho do campo quadrado (minimo 8): ");` | Le o tamanho do campo. |
+| 969 | `    if (tamanho &lt; TAMANHO_MINIMO)` | Se o tamanho for menor que o minimo, usa o minimo. |
+| 970 | `    {` | Abre ou fecha um bloco de codigo. |
+| 971 | `        tamanho = TAMANHO_MINIMO;` | Se o tamanho for menor que o minimo, usa o minimo. |
+| 972 | `    }` | Fecha um bloco de codigo. |
+| 973 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 974 | `    maximoNavios = (tamanho * tamanho) / 2;` | Calcula o maximo de navios possivel. |
+| 975 | `    navios = lerInteiro("Quantidade de navios de duas celulas (minimo 4): ");` | Le a quantidade de navios. |
+| 976 | `    if (navios &lt; NAVIOS_MINIMOS)` | Se a quantidade for menor que o minimo, usa o minimo. |
+| 977 | `    {` | Abre ou fecha um bloco de codigo. |
+| 978 | `        navios = NAVIOS_MINIMOS;` | Se a quantidade for menor que o minimo, usa o minimo. |
+| 979 | `    }` | Fecha um bloco de codigo. |
+| 980 | `    if (navios &gt; maximoNavios)` | Se a quantidade passar do maximo, limita ao maximo. |
+| 981 | `    {` | Abre ou fecha um bloco de codigo. |
+| 982 | `        navios = maximoNavios;` | Se a quantidade passar do maximo, limita ao maximo. |
+| 983 | `    }` | Fecha um bloco de codigo. |
+| 984 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 985 | `    config-&gt;tamanho = tamanho;` | Salva o tamanho na configuracao. |
+| 986 | `    config-&gt;quantidadeNavios = navios;` | Salva a quantidade de navios na configuracao. |
 | 987 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 988 | `    srand((unsigned int)time(NULL));` | Inicializa o sorteio aleatorio usando o horario atual. |
-| 989 | `    carregarConfiguracao(&amp;config);` | Carrega configuracao salva ou usa a padrao. |
-| 990 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 991 | `    while (executando)` | Comeca o laco principal do programa. |
-| 992 | `    {` | Abre ou fecha um bloco de codigo. |
-| 993 | `        mostrarMenu(config);` | Mostra o menu principal. |
-| 994 | `        opcao = lerOpcaoMenu();` | Le a opcao escolhida. |
-| 995 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 996 | `        if (opcao == 1)` | Opcao 1: cria novo jogo, executa a partida e libera memoria. |
-| 997 | `        {` | Opcao 1: cria novo jogo, executa a partida e libera memoria. |
-| 998 | `            inicializarJogo(&amp;jogo, config);` | Opcao 1: cria novo jogo, executa a partida e libera memoria. |
-| 999 | `            executarPartida(&amp;jogo);` | Opcao 1: cria novo jogo, executa a partida e libera memoria. |
-| 1000 | `            liberarJogo(&amp;jogo);` | Opcao 1: cria novo jogo, executa a partida e libera memoria. |
-| 1001 | `        }` | Opcao 1: cria novo jogo, executa a partida e libera memoria. |
-| 1002 | `        else if (opcao == 2)` | Opcao 2: abre a configuracao do jogo. |
-| 1003 | `        {` | Opcao 2: abre a configuracao do jogo. |
-| 1004 | `            configurarJogo(&amp;config);` | Opcao 2: abre a configuracao do jogo. |
-| 1005 | `        }` | Opcao 2: abre a configuracao do jogo. |
-| 1006 | `        else if (opcao == 3)` | Opcao 3: tenta carregar jogo salvo; se nao houver, mostra aviso. |
-| 1007 | `        {` | Opcao 3: tenta carregar jogo salvo; se nao houver, mostra aviso. |
-| 1008 | `            if (carregarJogo(&amp;jogo))` | Opcao 3: tenta carregar jogo salvo; se nao houver, mostra aviso. |
-| 1009 | `            {` | Opcao 3: tenta carregar jogo salvo; se nao houver, mostra aviso. |
-| 1010 | `                executarPartida(&amp;jogo);` | Opcao 3: tenta carregar jogo salvo; se nao houver, mostra aviso. |
-| 1011 | `                liberarJogo(&amp;jogo);` | Opcao 3: tenta carregar jogo salvo; se nao houver, mostra aviso. |
-| 1012 | `                carregarConfiguracao(&amp;config);` | Opcao 3: tenta carregar jogo salvo; se nao houver, mostra aviso. |
-| 1013 | `            }` | Opcao 3: tenta carregar jogo salvo; se nao houver, mostra aviso. |
-| 1014 | `            else` | Opcao 3: tenta carregar jogo salvo; se nao houver, mostra aviso. |
-| 1015 | `            {` | Opcao 3: tenta carregar jogo salvo; se nao houver, mostra aviso. |
-| 1016 | `                printf("Nenhum jogo salvo encontrado.\n");` | Opcao 3: tenta carregar jogo salvo; se nao houver, mostra aviso. |
-| 1017 | `            }` | Opcao 3: tenta carregar jogo salvo; se nao houver, mostra aviso. |
-| 1018 | `        }` | Opcao 3: tenta carregar jogo salvo; se nao houver, mostra aviso. |
-| 1019 | `        else if (opcao == 4)` | Opcao 4: encerra o laco principal. |
-| 1020 | `        {` | Opcao 4: encerra o laco principal. |
-| 1021 | `            executando = 0;` | Opcao 4: encerra o laco principal. |
-| 1022 | `        }` | Opcao 4: encerra o laco principal. |
-| 1023 | `        else` | Qualquer outra opcao mostra erro. |
-| 1024 | `        {` | Qualquer outra opcao mostra erro. |
-| 1025 | `            printf("Opcao invalida.\n");` | Qualquer outra opcao mostra erro. |
-| 1026 | `        }` | Qualquer outra opcao mostra erro. |
-| 1027 | `    }` | Fecha o laco principal. |
-| 1028 | &nbsp; | Linha em branco para separar partes do codigo. |
-| 1029 | `    printf("Programa encerrado.\n");` | Mostra mensagem de encerramento. |
-| 1030 | `    return 0;` | Retorna zero, indicando que o programa terminou corretamente. |
-| 1031 | `}` | Fecha a funcao `main`. |
+| 988 | `    if (salvarConfiguracao(config))` | Tenta salvar e mostra mensagem de sucesso. |
+| 989 | `    {` | Abre ou fecha um bloco de codigo. |
+| 990 | `        printf("Configuracao salva.\n");` | Tenta salvar e mostra mensagem de sucesso. |
+| 991 | `    }` | Fecha um bloco de codigo. |
+| 992 | `    else` | Caso contrario, executa o outro bloco. |
+| 993 | `    {` | Abre ou fecha um bloco de codigo. |
+| 994 | `        printf("Nao foi possivel salvar a configuracao.\n");` | Se nao conseguir salvar, mostra mensagem de erro. |
+| 995 | `    }` | Fecha um bloco de codigo. |
+| 996 | `}` | Fecha um bloco de codigo. |
+| 997 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 998 | `/* Le a opcao escolhida no menu principal. */` | Comentario sobre ler opcao do menu. |
+| 999 | `int lerOpcaoMenu(void)` | Inicio da funcao `lerOpcaoMenu`. |
+| 1000 | `{` | Abre um bloco de codigo. |
+| 1001 | `    return lerInteiro("Escolha: ");` | Retorna um valor ou encerra a funcao. |
+| 1002 | `}` | Fecha um bloco de codigo. |
+| 1003 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 1004 | `/* Mostra o menu principal do jogo. */` | Comentario sobre mostrar menu principal. |
+| 1005 | `void mostrarMenu(Configuracao config)` | Inicio da funcao `mostrarMenu`. |
+| 1006 | `{` | Abre um bloco de codigo. |
+| 1007 | `    printf("\n===== BATALHA NAVAL =====\n");` | Imprime o titulo do jogo. |
+| 1008 | `    printf("Configuracao atual: campo %dx%d, %d navios\n",` | Mostra a configuracao atual. |
+| 1009 | `           config.tamanho, config.tamanho, config.quantidadeNavios);` | Mostra a configuracao atual. |
+| 1010 | `    printf("1 - Novo Jogo\n");` | Mostra opcao de novo jogo. |
+| 1011 | `    printf("2 - Configurar\n");` | Mostra opcao de configurar. |
+| 1012 | `    printf("3 - Carregar\n");` | Mostra opcao de carregar jogo salvo. |
+| 1013 | `    printf("4 - Sair\n");` | Mostra opcao de sair. |
+| 1014 | `}` | Fecha um bloco de codigo. |
+| 1015 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 1016 | `/* Funcao principal: o programa sempre comeca por aqui. */` | Comentario dizendo que o programa comeca na funcao principal. |
+| 1017 | `int main(void)` | Inicio da funcao `main`. |
+| 1018 | `{` | Abre um bloco de codigo. |
+| 1019 | `    Configuracao config;` | Executa uma instrucao do programa. |
+| 1020 | `    Jogo jogo;` | Cria a variavel que guarda a partida. |
+| 1021 | `    int opcao;` | Declara uma variavel inteira. |
+| 1022 | `    int executando = 1;` | Cria variavel que mantem o menu rodando. |
+| 1023 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 1024 | `    srand((unsigned int)time(NULL));` | Inicializa o sorteio aleatorio usando o horario atual. |
+| 1025 | `    carregarConfiguracao(&amp;config);` | Carrega configuracao salva ou usa a padrao. |
+| 1026 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 1027 | `    while (executando)` | Comeca o laco principal do programa. |
+| 1028 | `    {` | Abre ou fecha um bloco de codigo. |
+| 1029 | `        mostrarMenu(config);` | Mostra o menu principal. |
+| 1030 | `        opcao = lerOpcaoMenu();` | Le a opcao escolhida. |
+| 1031 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 1032 | `        if (opcao == 1)` | Verifica uma condicao para decidir o que fazer. |
+| 1033 | `        {` | Abre ou fecha um bloco de codigo. |
+| 1034 | `            inicializarJogo(&amp;jogo, config);` | Opcao 1: cria novo jogo, executa a partida e libera memoria. |
+| 1035 | `            executarPartida(&amp;jogo);` | Opcao 1: cria novo jogo, executa a partida e libera memoria. |
+| 1036 | `            liberarJogo(&amp;jogo);` | Opcao 1: cria novo jogo, executa a partida e libera memoria. |
+| 1037 | `        }` | Fecha um bloco de codigo. |
+| 1038 | `        else if (opcao == 2)` | Atualiza ou calcula um valor usado pelo programa. |
+| 1039 | `        {` | Abre ou fecha um bloco de codigo. |
+| 1040 | `            configurarJogo(&amp;config);` | Opcao 2: abre a configuracao do jogo. |
+| 1041 | `        }` | Fecha um bloco de codigo. |
+| 1042 | `        else if (opcao == 3)` | Atualiza ou calcula um valor usado pelo programa. |
+| 1043 | `        {` | Abre ou fecha um bloco de codigo. |
+| 1044 | `            if (carregarJogo(&amp;jogo))` | Opcao 3: tenta carregar jogo salvo; se nao houver, mostra aviso. |
+| 1045 | `            {` | Abre ou fecha um bloco de codigo. |
+| 1046 | `                executarPartida(&amp;jogo);` | Opcao 3: tenta carregar jogo salvo; se nao houver, mostra aviso. |
+| 1047 | `                liberarJogo(&amp;jogo);` | Opcao 3: tenta carregar jogo salvo; se nao houver, mostra aviso. |
+| 1048 | `                carregarConfiguracao(&amp;config);` | Opcao 3: tenta carregar jogo salvo; se nao houver, mostra aviso. |
+| 1049 | `            }` | Fecha um bloco de codigo. |
+| 1050 | `            else` | Caso contrario, executa o outro bloco. |
+| 1051 | `            {` | Abre ou fecha um bloco de codigo. |
+| 1052 | `                printf("Nenhum jogo salvo encontrado.\n");` | Opcao 3: tenta carregar jogo salvo; se nao houver, mostra aviso. |
+| 1053 | `            }` | Fecha um bloco de codigo. |
+| 1054 | `        }` | Fecha um bloco de codigo. |
+| 1055 | `        else if (opcao == 4)` | Opcao 4: encerra o laco principal. |
+| 1056 | `        {` | Abre ou fecha um bloco de codigo. |
+| 1057 | `            executando = 0;` | Opcao 4: encerra o laco principal. |
+| 1058 | `        }` | Fecha um bloco de codigo. |
+| 1059 | `        else` | Caso contrario, executa o outro bloco. |
+| 1060 | `        {` | Abre ou fecha um bloco de codigo. |
+| 1061 | `            printf("Opcao invalida.\n");` | Mostra uma mensagem na tela. |
+| 1062 | `        }` | Fecha um bloco de codigo. |
+| 1063 | `    }` | Fecha um bloco de codigo. |
+| 1064 | &nbsp; | Linha em branco para separar partes do codigo. |
+| 1065 | `    printf("Programa encerrado.\n");` | Mostra mensagem de encerramento. |
+| 1066 | `    return 0;` | Retorna zero, indicando que o programa terminou corretamente. |
+| 1067 | `}` | Fecha um bloco de codigo. |

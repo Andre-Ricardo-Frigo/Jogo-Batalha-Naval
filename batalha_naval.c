@@ -49,8 +49,9 @@ typedef struct
     Configuracao config;
     Jogador humano;
     Jogador computador;
-    int turno;       /* 0 = humano, 1 = computador */
-    int emAndamento; /* 1 = jogo ativo, 0 = jogo parado */
+    int turno;                  /* 0 = humano, 1 = computador */
+    int emAndamento;            /* 1 = jogo ativo, 0 = jogo parado */
+    int bombardeiosHumanoFeitos; /* disparos ja feitos no turno atual */
 } Jogo;
 
 /* Prototipos das funcoes. */
@@ -69,6 +70,7 @@ void liberarJogo(Jogo *jogo);
 void executarPartida(Jogo *jogo);
 void configurarJogo(Configuracao *config);
 int contarNaviosRestantes(Navio *navios, int total, int indice);
+int contarBombardeiosRealizados(int **visaoAdversario, int tamanho);
 
 /* Limpa o restante da linha quando o usuario digita algo invalido. */
 void limparEntrada(void)
@@ -465,6 +467,15 @@ int carregarJogo(Jogo *jogo)
     lerMatriz(arquivo, jogo->computador.campo, tamanho);
     lerMatriz(arquivo, jogo->computador.visaoAdversario, tamanho);
 
+    if (jogo->turno == 0)
+    {
+        jogo->bombardeiosHumanoFeitos = contarBombardeiosRealizados(jogo->humano.visaoAdversario, tamanho) % 3;
+    }
+    else
+    {
+        jogo->bombardeiosHumanoFeitos = 0;
+    }
+
     fclose(arquivo);
     return 1;
 }
@@ -549,6 +560,7 @@ void inicializarJogo(Jogo *jogo, Configuracao config)
     jogo->config = config;
     jogo->turno = 0;
     jogo->emAndamento = 1;
+    jogo->bombardeiosHumanoFeitos = 0;
 
     inicializarJogador(&jogo->humano, config.tamanho, config.quantidadeNavios);
     inicializarJogador(&jogo->computador, config.tamanho, config.quantidadeNavios);
@@ -577,6 +589,27 @@ int contarNaviosRestantes(Navio *navios, int total, int indice)
     }
 
     return contarNaviosRestantes(navios, total, indice + 1);
+}
+
+/* Conta quantas posicoes o jogador ja bombardeou no campo adversario. */
+int contarBombardeiosRealizados(int **visaoAdversario, int tamanho)
+{
+    int i;
+    int j;
+    int total = 0;
+
+    for (i = 0; i < tamanho; i++)
+    {
+        for (j = 0; j < tamanho; j++)
+        {
+            if (visaoAdversario[i][j] != DESCONHECIDO)
+            {
+                total++;
+            }
+        }
+    }
+
+    return total;
 }
 
 /* Mostra o significado dos numeros do tabuleiro. */
@@ -717,7 +750,7 @@ int turnoHumano(Jogo *jogo)
     int tamanho = jogo->config.tamanho;
     int entradaValida;
 
-    for (i = 0; i < 3; i++)
+    for (i = jogo->bombardeiosHumanoFeitos; i < 3; i++)
     {
         mostrarCampos(jogo);
         printf("Bombardeio %d de 3\n", i + 1);
@@ -772,6 +805,7 @@ int turnoHumano(Jogo *jogo)
 
         printf("\nResultado do bombardeio: ");
         mostrarResultadoBombardeio(bombardear(&jogo->humano, &jogo->computador, linha, coluna));
+        jogo->bombardeiosHumanoFeitos = i + 1;
 
         if (jogo->computador.naviosAfundados == jogo->computador.totalNavios)
         {
@@ -779,6 +813,7 @@ int turnoHumano(Jogo *jogo)
         }
     }
 
+    jogo->bombardeiosHumanoFeitos = 0;
     jogo->turno = 1;
     printf("\nFim do seu turno. Agora e a vez da maquina bombardear.\n");
     return 1;
@@ -850,6 +885,7 @@ void turnoComputador(Jogo *jogo)
     }
 
     aguardarEnter();
+    jogo->bombardeiosHumanoFeitos = 0;
     jogo->turno = 0;
 }
 
