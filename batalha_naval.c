@@ -812,16 +812,16 @@ void turnoComputador(Jogo *jogo)
     int j;
     int linha;
     int coluna;
-    int posicao;
     int totalBombardeios = 0;
-    int posicoes[3];
+    int linhas[3];
+    int colunas[3];
     int resultados[3];
 
     for (i = 0; i < 3; i++)
     {
         sortearPosicaoComputador(jogo, &linha, &coluna);
-        posicao = linha * jogo->config.tamanho + coluna + 1;
-        posicoes[i] = posicao;
+        linhas[i] = linha + 1;
+        colunas[i] = coluna + 1;
         resultados[i] = bombardear(&jogo->computador, &jogo->humano, linha, coluna);
         totalBombardeios++;
 
@@ -832,7 +832,7 @@ void turnoComputador(Jogo *jogo)
         for (j = 0; j < totalBombardeios; j++)
         {
             printf("Bombardeio %d de 3\n", j + 1);
-            printf("A maquina bombardeou a posicao %d.\n", posicoes[j]);
+            printf("A maquina bombardeou a linha %d e coluna %d.\n", linhas[j], colunas[j]);
             printf("\nResultado do bombardeio: ");
             mostrarResultadoBombardeio(resultados[j]);
             printf("\n");
